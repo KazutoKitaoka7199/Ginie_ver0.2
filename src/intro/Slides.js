@@ -25,6 +25,6 @@ export default [
     subTitle: 'お金を使うイベントが控えているあなたに',
     title: '大金な買い物が必要な時も低金利ローンが利用可能',
     text: '資産担保ローンを低金利・無審査で利用できるので、結婚式などまとまった出費にも安心',
-    image: require('../../img/IllustrationOnboarding.png'),
+    image: require('../../img/IllustrationOnboarding4.png'),
   },
 ];
