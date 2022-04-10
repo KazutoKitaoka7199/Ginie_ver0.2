@@ -7,7 +7,7 @@ import Slides from './Slides';
 import Pagenator from './Pagenator';
 import BackButton from './BackButton';
 
-export default function Onbording() {
+export default function Onbording({ isVisible, dismissModal }) {
   const [currentIndex, setCurrentIndex] = useState(0);
   const scrollx = useRef(new Animated.Value(0)).current;
   const slidesRef = useRef(null);
@@ -21,13 +21,13 @@ export default function Onbording() {
   return (
     <View style={styles.container}>
       <View style={{ flex: 3 }}>
-        {/* <Ionicons
+        <Ionicons
           name="chevron-back-circle"
           size={60}
           color="gray"
           style={{position: 'absolute', top: 30, left: 20}}
-        /> */}
-        <BackButton />
+        />
+        {/* <BackButton /> */}
         <FlatList
           data={Slides}
           renderItem={({ item }) => <OnbordingItem item={item} />}
