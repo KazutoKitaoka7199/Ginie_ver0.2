@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, FlatList, Animated } from 'react-native'
+import { View, Text,Modal, StyleSheet, FlatList, Animated } from 'react-native'
 import React, { useState, useRef } from 'react'
 import { Ionicons } from '@expo/vector-icons';
 
@@ -7,7 +7,7 @@ import Slides from './Slides';
 import Pagenator from './Pagenator';
 import BackButton from './BackButton';
 
-export default function Onbording({ isVisible, dismissModal }) {
+export default function Onbording() {
   const [currentIndex, setCurrentIndex] = useState(0);
   const scrollx = useRef(new Animated.Value(0)).current;
   const slidesRef = useRef(null);

@@ -5,19 +5,11 @@ import {
 import Onbording from './Onbording';
 import Button from '../components/Button';
 
-export default function HomeScreen() {
-  const [isVisible, setIsVisible] = useState(false);
-  useEffect(() => {
-  }, []);
-  // eslint-disable-next-line no-underscore-dangle
-  const dismissModal = () => {
-    setIsVisible(false);
-  };
+export default function Landing() {
 
   return (
-    <View>
-      <Onbording isVisible={isVisible} dismissModal={dismissModal} />
-      <View style={styles.container}>
+    <View style={styles.container}>
+      <View style={styles.landing}>
         <Image style={styles.img} source={require('../../img/LogoLogo.png')} />
         <Text style={styles.title}>
           長期資産運用・管理を
@@ -29,7 +21,7 @@ export default function HomeScreen() {
         <Button
           label="はじめる"
           style={styles.style}
-          onPress={() => { setIsVisible(true); }} />
+          onPress={() => navigation.navigate('onbording')} />
       </View>
     </View>
   );
@@ -37,6 +29,10 @@ export default function HomeScreen() {
 
 const styles = StyleSheet.create({
   container: {
+    flex: 1,
+    backgroundColor: '#ffffff',
+  },
+  landing: {
     alignItems: 'center',
     top: 200,
   },
