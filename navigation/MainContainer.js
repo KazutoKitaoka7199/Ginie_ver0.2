@@ -11,9 +11,9 @@ import BorrowScreen from './bottombar/BorrowScreen';
 
 const Tab = createBottomTabNavigator();
 
-export default function mainContainer() {
+export default function MainContainer() {
   return (
-    <NavigationContainer>
+    <NavigationContainer independent={true}>
       <Tab.Navigator
         initialRouteName="資産運用"
         screenOptions={{

@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import {
   View, Text, StyleSheet, Image,
 } from 'react-native';
-import Onbording from './Onbording';
 import Button from '../components/Button';
 
 export default function Landing({navigation}) {

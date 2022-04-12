@@ -43,7 +43,7 @@ export default function Onbording() {
           onViewableItemsChanged={viewableItemsChanged}
           viewabilityConfig={viewConfig}
           ref={slidesRef}
-      />
+        />
       </View>
       <Pagenator data={Slides} scrollx={scrollx} />
     </View>

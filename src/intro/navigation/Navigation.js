@@ -5,6 +5,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 import Onbording from '../Onbording';
 import Landing from '../Landing';
+import MainContainer from '../../../navigation/MainContainer';
 
 const Stack = createNativeStackNavigator();
 
@@ -16,7 +17,8 @@ export default function Navigation() {
         initialRouteName="firstPage"
       >
         <Stack.Screen name="firstPage" component={Landing} />
-        <Stack.Screen name="onbording" component={Onbording}/>
+        <Stack.Screen name="onbording" component={Onbording} />
+        <Stack.Screen name="main" component={MainContainer} />
       </Stack.Navigator>
     </NavigationContainer>
   )
