@@ -5,7 +5,7 @@ import {
 import Onbording from './Onbording';
 import Button from '../components/Button';
 
-export default function Landing() {
+export default function Landing({navigation}) {
 
   return (
     <View style={styles.container}>
