@@ -57,18 +57,24 @@ export default function AddProductScreen() {
   );
 }
 
+// 3桁カンマ区切りとする.
+function comma(num) {
+  return String(num).replace( /(\d)(?=(\d\d\d)+(?!\d))/g, '$1,');
+}
+
 function renderItem({ item }) {
     return (
       <View style={styles.blandUnit}>
         <View style={styles.bland}>
           <Image
             source={item.imageUrl}
+            style={{ width: 40, height: 40 }}
           />
           <View style={{ marginLeft: 12 }}>
             <Text style={styles.blandTicker}>{item.ticker}</Text>
             <Text style={styles.blandName}>{item.name}</Text>
           </View>
-          <Text style={styles.marketCap}>${item.totalPrice}</Text>
+          <Text style={styles.marketCap}>${comma(item.totalPrice)}K</Text>
         </View>
         <Text style={styles.addButtton}>⊕</Text>
       </View>
@@ -137,11 +143,13 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: 'bold',
     marginTop: 10,
-    marginLeft: 110,
+    position: 'absolute',
+    left: 220,
   },
   addButtton: {
-    marginTop: 10,
-    marginLeft: 10,
-    paddingHorizontal: 15,
+    marginTop: 15,
+    paddingHorizontal: 10,
+    position: 'absolute',
+    right: 10,
   },
 });
