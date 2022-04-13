@@ -5,11 +5,14 @@ import {
   StyleSheet,
   TextInput,
   Image,
+  FlatList,
 } from 'react-native';
-import HeaderGuide from '../components/HeaderGuide';
+import { useNavigation } from '@react-navigation/native';
 import Appbar from '../components/AppBar';
+import StockData from '../src/StockData';
 
 export default function AddProductScreen() {
+  const navigation = useNavigation();
   return (
     <View style={styles.container}>
       <View>
@@ -41,101 +44,36 @@ export default function AddProductScreen() {
           </View>
         </View>
 
-        <View style={styles.blandUnit}>
-          <View style={styles.bland}>
-            <Image
-              source={require('../../img/Tesla.png')}
-            />
-            <View style={{ marginLeft: 12 }}>
-              <Text style={styles.blandTicker}>TSLA</Text>
-              <Text style={styles.blandName}>Tesla Motors</Text>
-            </View>
-            <Text style={styles.marketCap}>$860B</Text>
-          </View>
-          <Text style={styles.addButtton}>⊕</Text>
-        </View>
-        <View style={styles.blandUnit}>
-          <View style={styles.bland}>
-            <Image
-              source={require('../../img/Tesla.png')}
-            />
-            <View style={{ marginLeft: 12 }}>
-              <Text style={styles.blandTicker}>TSLA</Text>
-              <Text style={styles.blandName}>Tesla Motors</Text>
-            </View>
-            <Text style={styles.marketCap}>$860B</Text>
-          </View>
-          <Text style={styles.addButtton}>⊕</Text>
-        </View>
-        <View style={styles.blandUnit}>
-          <View style={styles.bland}>
-            <Image
-              source={require('../../img/Tesla.png')}
-            />
-            <View style={{ marginLeft: 12 }}>
-              <Text style={styles.blandTicker}>TSLA</Text>
-              <Text style={styles.blandName}>Tesla Motors</Text>
-            </View>
-            <Text style={styles.marketCap}>$860B</Text>
-          </View>
-          <Text style={styles.addButtton}>⊕</Text>
-        </View>
-        <View style={styles.blandUnit}>
-          <View style={styles.bland}>
-            <Image
-              source={require('../../img/Tesla.png')}
-            />
-            <View style={{ marginLeft: 12 }}>
-              <Text style={styles.blandTicker}>TSLA</Text>
-              <Text style={styles.blandName}>Tesla Motors</Text>
-            </View>
-            <Text style={styles.marketCap}>$860B</Text>
-          </View>
-          <Text style={styles.addButtton}>⊕</Text>
-        </View>
-        <View style={styles.blandUnit}>
-          <View style={styles.bland}>
-            <Image
-              source={require('../../img/Tesla.png')}
-            />
-            <View style={{ marginLeft: 12 }}>
-              <Text style={styles.blandTicker}>TSLA</Text>
-              <Text style={styles.blandName}>Tesla Motors</Text>
-            </View>
-            <Text style={styles.marketCap}>$860B</Text>
-          </View>
-          <Text style={styles.addButtton}>⊕</Text>
-        </View>
-        <View style={styles.blandUnit}>
-          <View style={styles.bland}>
-            <Image
-              source={require('../../img/Tesla.png')}
-            />
-            <View style={{ marginLeft: 12 }}>
-              <Text style={styles.blandTicker}>TSLA</Text>
-              <Text style={styles.blandName}>Tesla Motors</Text>
-            </View>
-            <Text style={styles.marketCap}>$860B</Text>
-          </View>
-          <Text style={styles.addButtton}>⊕</Text>
-        </View>
-        <View style={styles.blandUnit}>
-          <View style={styles.bland}>
-            <Image
-              source={require('../../img/Tesla.png')}
-            />
-            <View style={{ marginLeft: 12 }}>
-              <Text style={styles.blandTicker}>TSLA</Text>
-              <Text style={styles.blandName}>Tesla Motors</Text>
-            </View>
-            <Text style={styles.marketCap}>$860B</Text>
-          </View>
-          <Text style={styles.addButtton}>⊕</Text>
+        <View style={styles.container}>
+          <FlatList
+            data={StockData}
+            // eslint-disable-next-line react/jsx-no-bind
+            renderItem={renderItem}
+            keyExtractor={(item) => item.key}
+          />
         </View>
       </View>
     </View>
   );
 }
+
+function renderItem({ item }) {
+    return (
+      <View style={styles.blandUnit}>
+        <View style={styles.bland}>
+          <Image
+            source={item.imageUrl}
+          />
+          <View style={{ marginLeft: 12 }}>
+            <Text style={styles.blandTicker}>{item.ticker}</Text>
+            <Text style={styles.blandName}>{item.name}</Text>
+          </View>
+          <Text style={styles.marketCap}>${item.totalPrice}</Text>
+        </View>
+        <Text style={styles.addButtton}>⊕</Text>
+      </View>
+    );
+  }
 
 const styles = StyleSheet.create({
   container: {

@@ -1,4 +1,4 @@
-import { View, Text,Modal, StyleSheet, FlatList, Animated } from 'react-native'
+import { View, StyleSheet, FlatList, Animated } from 'react-native'
 import React, { useState, useRef } from 'react'
 import { Ionicons } from '@expo/vector-icons';
 
