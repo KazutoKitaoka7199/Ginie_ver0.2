@@ -6,10 +6,6 @@ import AddProductScreen from '../../src/screens/AddProductScreen';
 export default function InvestScreen() {
   return (
    <View style={styles.container}>
-      {/* <Text
-        style={styles.text}
-        // onPress={() => navigation.navigate('Home')}
-      >Invest Screen</Text> */}
       <AddProductScreen />
     </View> 
   )

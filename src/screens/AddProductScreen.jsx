@@ -16,7 +16,6 @@ export default function AddProductScreen() {
         <View>
           <Appbar title="資産運用" />
         </View>
-        <HeaderGuide />
         <View style={styles.search}>
           <View style={styles.portChoices}>
             <Text>個別株式</Text>

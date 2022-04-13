@@ -1,11 +1,13 @@
 import React from 'react';
 import { View, Text } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { createNativeStackNavigator, CardStyleInterpolators } from '@react-navigation/native-stack';
 
 import Onbording from '../Onbording';
 import Landing from '../Landing';
 import MainContainer from '../../../navigation/MainContainer';
+import LogInScreen from '../../screens/LogInScreen';
+import SignUpScreen from '../../screens/SignUpScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -14,10 +16,12 @@ export default function Navigation() {
     <NavigationContainer>
       <Stack.Navigator
         screenOptions={{ headerShown: false }}
-        initialRouteName="firstPage"
+        initialRouteName="fiestPage"
       >
         <Stack.Screen name="firstPage" component={Landing} />
         <Stack.Screen name="onbording" component={Onbording} />
+        <Stack.Screen name="login" component={LogInScreen} />
+        <Stack.Screen name="signUp" component={SignUpScreen} />
         <Stack.Screen name="main" component={MainContainer} />
       </Stack.Navigator>
     </NavigationContainer>
