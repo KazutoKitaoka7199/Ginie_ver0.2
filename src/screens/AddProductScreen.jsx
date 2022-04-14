@@ -70,7 +70,6 @@ export default function AddProductScreen() {
         <View style={styles.container}>
           <FlatList
             data={StockData}
-            // eslint-disable-next-line react/jsx-no-bind
             renderItem={renderItem}
             keyExtractor={(item) => item.key}
           />

@@ -1,10 +1,18 @@
-import {View, Text, StyleSheet, FlatList} from "react-native";
+import {View, Text, StyleSheet, SafeAreaView, Image} from "react-native";
 import React, {useEffect, useState} from "react";
+
+import StockData from "../src/StockData";
+
 import Appbar from "../components/AppBar";
+
+// 3桁カンマ区切りとする.
+function comma(num) {
+  return String(num).replace( /(\d)(?=(\d\d\d)+(?!\d))/g, '$1,');
+}
 
 export default function TickerDetailScreen({}) {
 const [data, setData] = useState(null);
-
+  
   useEffect(() => {
     fetch(`https://api.chucknorris.io/jokes/random`)
       .then((res) => res.json())
@@ -12,20 +20,51 @@ const [data, setData] = useState(null);
   }, []);
 
   return (
-    <View style={styles.container}>
-      <View>
-        <Appbar/>
-        </View>
-      <FlatList>
-      </FlatList>
-      <Text>これはTickerDetailScreenです</Text>
+    <SafeAreaView style={styles.container}>
+      <Appbar />
       {data ? <Text>{JSON.stringify(data)}</Text> : <Text>loading</Text>}
-    </View>
+    </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+  },
+  blandUnit: {
+    flexDirection: 'row',
+    borderBottomWidth: 1,
+    borderBottomColor: '#DADADA',
+    paddingHorizontal: 12,
+    paddingVertical: 6,
+  },
+  title: {
+    flexDirection: 'row',
+    marginTop: 7,
+  },
+  blandTitle: {
+    marginLeft: 85,
+  },
+  blandMrkCap: {
+    marginLeft: 160,
+  },
+  bland: {
+    flexDirection: 'row',
+  },
+  blandTicker: {
+    color: '#8B8B94',
+    fontSize: 12,
+  },
+  blandName: {
+    lineHeight: 30,
+    fontSize: 16,
+    fontWeight: 'bold',
+  },
+  marketCap: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    marginTop: 10,
+    position: 'absolute',
+    left: 220,
   },
 });
