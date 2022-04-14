@@ -1,11 +1,11 @@
-import { View, Text, StyleSheet } from 'react-native'
-import { TextInput } from 'react-native-paper';
-import React, {useState} from 'react'
-import Button from '../components/Button';
+import {View, Text, StyleSheet} from "react-native";
+import {TextInput} from "react-native-paper";
+import React, {useState} from "react";
+import Button from "../components/Button";
 
 export default function LogInScreen({navigation}) {
-  const [email, setEmail] = useState('');
-  const [pass, setPass] = useState('');
+  const [email, setEmail] = useState("");
+  const [pass, setPass] = useState("");
   return (
     <View>
       <View>
@@ -30,22 +30,23 @@ export default function LogInScreen({navigation}) {
         />
       </View>
       <Button
-          label="はじめる"
-          style={styles.style}
-          onPress={() => navigation.navigate('main')} />
+        label="はじめる"
+        style={styles.style}
+        onPress={() => navigation.navigate("main")}
+      />
     </View>
-  )
+  );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
   },
   style: {
     width: 300,
-    alignSelf: 'auto',
+    alignSelf: "auto",
     borderRadius: 10,
   },
 });
