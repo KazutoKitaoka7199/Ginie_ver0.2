@@ -37,10 +37,10 @@ const styles = StyleSheet.create({
   appbar: {
     width: '100%',
     height: 80,
-    justifyContent: 'flex-end',
+    top: 30,
   },
   appInner: {
-    alignItems: 'center',
+    flexDirection: 'row',
   },
   appbarItem: {
     fontSize: 20,
@@ -48,19 +48,22 @@ const styles = StyleSheet.create({
     color: '#000000',
     marginBottom: 8,
     lineHeight: 32,
+    position: 'absolute',
+    left: 150,
   },
   appbarLeft: {
     position: 'absolute',
-    left: 10,
+    left: 15,
   },
   appbarRight: {
-    position: 'absolute',
     flexDirection: 'row',
   },
   bell: {
-    left: 150,
+    position: 'absolute',
+    left: 320,
   },
   user: {
-    left: 170,
+    position: 'absolute',
+    left: 350,
   },
 });

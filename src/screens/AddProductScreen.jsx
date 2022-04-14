@@ -6,6 +6,7 @@ import {
   TextInput,
   Image,
   FlatList,
+  Pressable
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import Appbar from '../components/AppBar';
@@ -13,6 +14,28 @@ import StockData from '../src/StockData';
 
 export default function AddProductScreen() {
   const navigation = useNavigation();
+
+  const renderItem = ({ item }) => {
+    return (
+      <Pressable onPress={() => navigation.navigate("tickerDetail")}>
+        <View style={styles.blandUnit}>
+          <View style={styles.bland}>
+            <Image
+              source={item.imageUrl}
+              style={{ width: 40, height: 40 }}
+            />
+            <View style={{ marginLeft: 12 }}>
+              <Text style={styles.blandTicker}>{item.ticker}</Text>
+              <Text style={styles.blandName}>{item.name}</Text>
+            </View>
+            <Text style={styles.marketCap}>${comma(item.totalPrice)}K</Text>
+          </View>
+          <Text style={styles.addButtton}>⊕</Text>
+        </View>
+      </Pressable>
+    );
+  }
+
   return (
     <View style={styles.container}>
       <View>
@@ -61,25 +84,6 @@ export default function AddProductScreen() {
 function comma(num) {
   return String(num).replace( /(\d)(?=(\d\d\d)+(?!\d))/g, '$1,');
 }
-
-function renderItem({ item }) {
-    return (
-      <View style={styles.blandUnit}>
-        <View style={styles.bland}>
-          <Image
-            source={item.imageUrl}
-            style={{ width: 40, height: 40 }}
-          />
-          <View style={{ marginLeft: 12 }}>
-            <Text style={styles.blandTicker}>{item.ticker}</Text>
-            <Text style={styles.blandName}>{item.name}</Text>
-          </View>
-          <Text style={styles.marketCap}>${comma(item.totalPrice)}K</Text>
-        </View>
-        <Text style={styles.addButtton}>⊕</Text>
-      </View>
-    );
-  }
 
 const styles = StyleSheet.create({
   container: {

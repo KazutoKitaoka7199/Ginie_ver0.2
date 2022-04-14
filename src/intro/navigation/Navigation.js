@@ -16,7 +16,7 @@ export default function Navigation() {
     <NavigationContainer>
       <Stack.Navigator
         screenOptions={{ headerShown: false }}
-        initialRouteName="fiestPage"
+        initialRouteName="main"
       >
         <Stack.Screen name="firstPage" component={Landing} />
         <Stack.Screen name="onbording" component={Onbording} />
@@ -25,5 +25,5 @@ export default function Navigation() {
         <Stack.Screen name="main" component={MainContainer} />
       </Stack.Navigator>
     </NavigationContainer>
-  )
+  );
 }
