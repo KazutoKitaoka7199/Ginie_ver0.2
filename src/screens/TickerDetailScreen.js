@@ -2,8 +2,8 @@ import {View, Text, StyleSheet, SafeAreaView, Image} from "react-native";
 import React, {useEffect, useState} from "react";
 
 import StockData from "../src/StockData";
-
 import Appbar from "../components/AppBar";
+import { prygonApikey } from "../../env";
 
 // 3桁カンマ区切りとする.
 function comma(num) {
@@ -14,7 +14,7 @@ export default function TickerDetailScreen({}) {
 const [data, setData] = useState(null);
   
   useEffect(() => {
-    fetch(`https://api.chucknorris.io/jokes/random`)
+    fetch(`https://api.polygon.io/v3/reference/tickers/AAPL?apiKey=${prygonApikey}`)
       .then((res) => res.json())
       .then((json) => setData(json));
   }, []);

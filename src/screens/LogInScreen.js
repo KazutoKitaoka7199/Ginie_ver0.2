@@ -1,13 +1,49 @@
 import { View, Text, StyleSheet } from 'react-native'
 import { TextInput } from 'react-native-paper';
-import React, {useState} from 'react'
+import React, {useState, useEffect} from 'react'
 import Button from '../components/Button';
+import { signInWithEmailAndPassword, onAuthStateChanged } from 'firebase/auth';
+import { auth } from '../components/Firebase';
+import Loading from '../components/Loading';
 
 export default function LogInScreen({navigation}) {
   const [email, setEmail] = useState('');
   const [pass, setPass] = useState('');
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    const unSub = onAuthStateChanged(auth, (user) => {
+      if (user) {
+        navigation.reset({
+          index: 0,
+          routes: [{ name: 'main' }],
+        });
+      } else {
+        setIsLoading(false);
+      }
+    });
+    return () => unSub();
+  }, []);
+
+  const handlePress = async () => {
+    try {
+      setIsLoading(true);
+      await signInWithEmailAndPassword(auth, email, pass);
+      navigation.reset({
+        index: 0,
+        routes: [{ name: 'main' }],
+      });
+      setIsLoading(false);
+    } catch (error) {
+      const errorMsg = translateErrors(error.code);
+      Alert.alert(errorMsg.title, errorMsg.description);
+      setIsLoading(false);
+    }
+  };
+
   return (
     <View style={styles.container}>
+      <Loading isLoading={isLoading}/>
       <View style={styles.inner}>
         <View>
           <Text style={styles.title}>ログイン</Text>
@@ -16,25 +52,33 @@ export default function LogInScreen({navigation}) {
           <TextInput
             label="Email Address"
             placeholder="Email Address"
-            secureTextEntry
+            value={email}
+            onChangeText={(text) => { setEmail(text); }}
             left={<TextInput.Icon name="email-outline" />}
             style={styles.input}
+            autoCapitalize="none"
+            keyboardType="email-address"
+            textContentType="emailAddress"
           />
         </View>
         <View>
           <TextInput
             label="Password"
             placeholder="Paddword"
+            value={pass}
+            onChangeText={(text) => { setPass(text); }}
             secureTextEntry
             left={<TextInput.Icon name="lock-outline" />}
             right={<TextInput.Icon name="eye" />}
             style={styles.input}
+            autoCapitalize="none"
+            textContentType="password"
           />
         </View>
         <Button
           label="はじめる"
           style={styles.style}
-          onPress={() => navigation.navigate('main')}
+          onPress={handlePress}
         />
         <View style={styles.footer}>
           <Text style={styles.footerText}>新規ユーザーの方は</Text>

@@ -2,39 +2,63 @@ import { View, Text, StyleSheet } from 'react-native'
 import { TextInput } from 'react-native-paper';
 import React, {useState} from 'react'
 import Button from '../components/Button';
+import { auth } from '../components/Firebase';
+import { createUserWithEmailAndPassword } from 'firebase/auth';
 
-export default function LogInScreen({navigation}) {
+export default function SignUpScreen({navigation}) {
   const [email, setEmail] = useState('');
   const [pass, setPass] = useState('');
+
+  const handlePress = async () => {
+    try {
+      await createUserWithEmailAndPassword(auth, email, pass);
+      navigation.reset({
+        index: 0,
+        routes: [{ name: 'main' }],
+      });
+    } catch (error) {
+      const errormsg = translateErrors(error.code);
+      Alert.alert(errormsg.title, errormsg.description);
+    }
+  };
+
   return (
     <View style={styles.container}>
       <View style={styles.inner}>
         <View>
-          <Text style={styles.title}>ログイン</Text>
+          <Text style={styles.title}>アカウント作成</Text>
         </View>
         <View>
           <TextInput
             label="Email Address"
             placeholder="Email Address"
-            secureTextEntry
+            value={email}
+            onChangeText={(text) => { setEmail(text); }}
             left={<TextInput.Icon name="email-outline" />}
             style={styles.input}
+            autoCapitalize="none"
+            keyboardType="email-address"
+            textContentType="emailAddress"
           />
         </View>
         <View>
           <TextInput
             label="Password"
             placeholder="Paddword"
+            value={pass}
+            onChangeText={(text) => { setPass(text); }}
             secureTextEntry
             left={<TextInput.Icon name="lock-outline" />}
             right={<TextInput.Icon name="eye" />}
             style={styles.input}
+            autoCapitalize="none"
+            textContentType="password"
           />
         </View>
         <Button
           label="はじめる"
           style={styles.style}
-          onPress={() => navigation.navigate('main')}
+          onPress={handlePress}
         />
         <View style={styles.footer}>
           <Text style={styles.footerText}>新規ユーザーの方は</Text>

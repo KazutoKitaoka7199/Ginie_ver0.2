@@ -16,7 +16,7 @@ export default function Navigation() {
     <NavigationContainer>
       <Stack.Navigator
         screenOptions={{ headerShown: false }}
-        initialRouteName="main"
+        initialRouteName="login"
       >
         <Stack.Screen name="firstPage" component={Landing} />
         <Stack.Screen name="onbording" component={Onbording} />
