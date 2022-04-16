@@ -1,8 +1,10 @@
-import {View, Text, StyleSheet, SafeAreaView, Image} from "react-native";
+import { View, Text, StyleSheet, SafeAreaView, FlatList, Image} from "react-native";
 import React, {useEffect, useState} from "react";
 
 import StockData from "../src/StockData";
+import Loading from '../components/Loading';
 import Appbar from "../components/AppBar";
+import TickerDetail from '../components/TickerDetail';
 import { prygonApikey } from "../../env";
 
 // 3桁カンマ区切りとする.
@@ -12,17 +14,51 @@ function comma(num) {
 
 export default function TickerDetailScreen({}) {
 const [data, setData] = useState(null);
+const [isLoading, setIsLoading] = useState(true);
   
   useEffect(() => {
     fetch(`https://api.polygon.io/v3/reference/tickers/AAPL?apiKey=${prygonApikey}`)
       .then((res) => res.json())
-      .then((json) => setData(json));
+      .then((json) => setData(json))
   }, []);
+
+  const renderItem = ((item) => {
+    return (
+      <View style={styles.bland}>
+        <Image
+          source={item.imageUrl}
+          style={{ width: 40, height: 40 }}
+        />
+        <View style={{ marginLeft: 12 }}>
+          <Text style={styles.blandTicker}>{item.ticker}</Text>
+          <Text style={styles.blandName}>{item.name}</Text>
+        </View>
+        <Text style={styles.marketCap}>${comma(item.totalPrice)}K</Text>
+      </View>
+    );
+  })
 
   return (
     <SafeAreaView style={styles.container}>
       <Appbar />
-      {data ? <Text>{JSON.stringify(data)}</Text> : <Text>loading</Text>}
+      {console.log("loading")}
+      {isLoading ? <Loading /> :(
+        <FlatList
+          data={data}
+          renderItem={({ item }) => {
+            return (
+              <TickerDetail
+                branding={item.branding.icon_url}
+                description={item.description}
+                market_cap={item.marketCap}
+                name={item.name}
+                ticker={item.ticker}
+              />
+            )
+          }}
+          keyExtractor={(_item, index) => index.toString()}
+        />
+      )}
     </SafeAreaView>
   );
 }

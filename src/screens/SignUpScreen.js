@@ -1,11 +1,13 @@
-import { View, Text, StyleSheet } from 'react-native'
+import { View, Text, StyleSheet, Alert } from 'react-native'
 import { TextInput } from 'react-native-paper';
 import React, {useState} from 'react'
 import Button from '../components/Button';
 import { auth } from '../components/Firebase';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
+import { translateErrors } from '../utilities';
 
-export default function SignUpScreen({navigation}) {
+export default function SignUpScreen(props) {
+  const { navigation } = props;
   const [email, setEmail] = useState('');
   const [pass, setPass] = useState('');
 
@@ -16,6 +18,7 @@ export default function SignUpScreen({navigation}) {
         index: 0,
         routes: [{ name: 'main' }],
       });
+      console.log(auth.currentUser)
     } catch (error) {
       const errormsg = translateErrors(error.code);
       Alert.alert(errormsg.title, errormsg.description);
@@ -61,7 +64,7 @@ export default function SignUpScreen({navigation}) {
           onPress={handlePress}
         />
         <View style={styles.footer}>
-          <Text style={styles.footerText}>新規ユーザーの方は</Text>
+          <Text style={styles.footerText}>既にアカウントをお持ちの方は</Text>
           <Text style={styles.footerLink}
                 onPress={() => {
                   navigation.reset({
@@ -70,7 +73,7 @@ export default function SignUpScreen({navigation}) {
                   });
                 }}
           >
-            こちらから登録
+            こちらからログイン
           </Text>
         </View>
       </View>

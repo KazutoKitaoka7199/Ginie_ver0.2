@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { FontAwesome5 } from '@expo/vector-icons';
+import LogOutButton from './LogOutButton';
 
 export default function Appbar(props) {
   const { title } = props;
@@ -21,12 +22,7 @@ export default function Appbar(props) {
             color="black"
             style={styles.bell}
           />
-          <FontAwesome5
-            name="user"
-            size={20}
-            color="black"
-            style={styles.user}
-          />
+          <LogOutButton style={styles.user}/>
         </View>
       </View>
     </View>

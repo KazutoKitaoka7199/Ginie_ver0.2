@@ -18,7 +18,7 @@ function InvestPage() {
   return (
     <NavigationContainer independent={true}>
       <Stack.Navigator
-        initialRouteName="tickerDetail"
+        initialRouteName="invest"
         screenOptions={{
           headerShown: false,
           tabBarActiveTintColor: '#0066FF',

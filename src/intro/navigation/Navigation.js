@@ -16,12 +16,18 @@ export default function Navigation() {
     <NavigationContainer>
       <Stack.Navigator
         screenOptions={{ headerShown: false }}
-        initialRouteName="login"
+        initialRouteName="main"
       >
         <Stack.Screen name="firstPage" component={Landing} />
         <Stack.Screen name="onbording" component={Onbording} />
-        <Stack.Screen name="login" component={LogInScreen} />
-        <Stack.Screen name="signUp" component={SignUpScreen} />
+        <Stack.Screen name="logIn" component={LogInScreen} />
+        <Stack.Screen
+          name="signUp"
+          component={SignUpScreen}
+          // options={{
+          //   cardStyleInterpolator: CardStyleInterpolators.forFadeFromBottomAndroid,
+          // }}
+        />
         <Stack.Screen name="main" component={MainContainer} />
       </Stack.Navigator>
     </NavigationContainer>

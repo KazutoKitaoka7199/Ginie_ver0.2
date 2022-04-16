@@ -1,12 +1,14 @@
-import { View, Text, StyleSheet } from 'react-native'
+import { View, Text, StyleSheet, Alert } from 'react-native'
 import { TextInput } from 'react-native-paper';
 import React, {useState, useEffect} from 'react'
 import Button from '../components/Button';
 import { signInWithEmailAndPassword, onAuthStateChanged } from 'firebase/auth';
 import { auth } from '../components/Firebase';
+import { translateErrors } from '../utilities';
 import Loading from '../components/Loading';
 
-export default function LogInScreen({navigation}) {
+export default function LogInScreen(props) {
+  const { navigation } = props;
   const [email, setEmail] = useState('');
   const [pass, setPass] = useState('');
   const [isLoading, setIsLoading] = useState(true);
