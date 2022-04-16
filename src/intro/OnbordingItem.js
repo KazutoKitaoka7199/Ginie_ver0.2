@@ -1,69 +1,69 @@
-import { View, Text, StyleSheet, Image, useWindowDimensions } from 'react-native'
-import React from 'react'
-import Button from '../components/Button';
-import { useNavigation } from '@react-navigation/native'
+import {View, Text, StyleSheet, Image, useWindowDimensions} from "react-native";
+import React from "react";
+import Button from "../components/Button";
+import {useNavigation} from "@react-navigation/native";
 
-export default function OnbordingItem({ item }) {
+export default function OnbordingItem({item}) {
   const navigation = useNavigation();
-  const { width } = useWindowDimensions();
+  const {width} = useWindowDimensions();
   return (
-    <View style={[styles.container, { width }]}>
+    <View style={[styles.container, {width}]}>
       <Image
         source={item.image}
-        style={[styles.image, {width:350, resizeMode: 'contain', bottom: 60}]}
+        style={[styles.image, {width: 350, resizeMode: "contain", bottom: 60}]}
       />
       <View style={styles.content}>
         <Text style={styles.subTitle}>{item.subTitle}</Text>
         <Text style={styles.title}>{item.title}</Text>
         <Text style={styles.text}>{item.text}</Text>
-        {
-          item.key == 4 &&
+        {item.key == 4 && (
           <Button
             label="次へ"
             style={{
-              position: 'absolute',
+              position: "absolute",
               width: 300,
-              alignSelf: 'auto',
+              alignSelf: "auto",
               borderRadius: 10,
               left: 15,
-              bottom: 10
+              bottom: 10,
             }}
-            onPress={() => navigation.navigate('login')}
-          />}
+            onPress={() => navigation.navigate("logIn")}
+          />
+        )}
       </View>
     </View>
-  )
+  );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
   },
   content: {
     marginHorizontal: 30,
   },
   image: {
     flex: 1,
-    justifyContent: 'center',
+    justifyContent: "center",
   },
   subTitle: {
-    fontWeight: 'bold',
-    textAlign: 'center',
+    fontWeight: "bold",
+    textAlign: "center",
     bottom: 140,
   },
   title: {
-    fontWeight: 'bold',
+    fontWeight: "bold",
     fontSize: 26,
-    textAlign: 'center',
+    textAlign: "center",
     bottom: 130,
   },
   text: {
     fontSize: 14,
-    textAlign: 'center',
+    textAlign: "center",
     marginHorizontal: 10,
     bottom: 100,
-    color: '#7E848D',
+    color: "#7E848D",
   },
 });

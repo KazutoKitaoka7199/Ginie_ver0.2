@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import {
   View,
   Text,
@@ -6,25 +6,23 @@ import {
   TextInput,
   Image,
   FlatList,
-  Pressable
-} from 'react-native';
-import { useNavigation } from '@react-navigation/native';
-import Appbar from '../components/AppBar';
-import StockData from '../src/StockData';
+  Pressable,
+} from "react-native";
+import {useNavigation} from "@react-navigation/native";
+import Appbar from "../components/AppBar";
+import StockData from "../src/StockData";
+import {SafeAreaView} from "react-native-safe-area-context";
 
 export default function AddProductScreen() {
   const navigation = useNavigation();
 
-  const renderItem = ({ item }) => {
+  const renderItem = ({item}) => {
     return (
       <Pressable onPress={() => navigation.navigate("tickerDetail")}>
         <View style={styles.blandUnit}>
           <View style={styles.bland}>
-            <Image
-              source={item.imageUrl}
-              style={{ width: 40, height: 40 }}
-            />
-            <View style={{ marginLeft: 12 }}>
+            <Image source={item.imageUrl} style={{width: 40, height: 40}} />
+            <View style={{marginLeft: 12}}>
               <Text style={styles.blandTicker}>{item.ticker}</Text>
               <Text style={styles.blandName}>{item.name}</Text>
             </View>
@@ -34,10 +32,10 @@ export default function AddProductScreen() {
         </View>
       </Pressable>
     );
-  }
+  };
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       <View>
         <View>
           <Appbar title="資産運用" />
@@ -50,16 +48,15 @@ export default function AddProductScreen() {
             <Text>登録ポート</Text>
           </View>
           <View>
-            <TextInput
-              style={styles.searchBar}
-              placeholder="検索"
-            />
+            <TextInput style={styles.searchBar} placeholder="検索" />
           </View>
           <View style={styles.searchTabs}>
-            <Text style={{ fontSize: 12, color: '#8B8B94' }}>おすすめ順</Text>
-            <Text style={{ fontSize: 12, color: '#8B8B94' }}>ETF</Text>
-            <Text style={{ fontSize: 12, color: '#8B8B94' }}>時価総額順</Text>
-            <Text style={{ fontSize: 12, color: '#8B8B94' }}>アルファベット順</Text>
+            <Text style={{fontSize: 12, color: "#8B8B94"}}>おすすめ順</Text>
+            <Text style={{fontSize: 12, color: "#8B8B94"}}>ETF</Text>
+            <Text style={{fontSize: 12, color: "#8B8B94"}}>時価総額順</Text>
+            <Text style={{fontSize: 12, color: "#8B8B94"}}>
+              アルファベット順
+            </Text>
           </View>
           <View style={styles.title}>
             <Text style={styles.blandTitle}>銘柄名</Text>
@@ -75,26 +72,26 @@ export default function AddProductScreen() {
           />
         </View>
       </View>
-    </View>
+    </SafeAreaView>
   );
 }
 
 // 3桁カンマ区切りとする.
 function comma(num) {
-  return String(num).replace( /(\d)(?=(\d\d\d)+(?!\d))/g, '$1,');
+  return String(num).replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,");
 }
 
 const styles = StyleSheet.create({
   container: {
-    width: '100%',
-    height: '100%',
+    width: "100%",
+    height: "100%",
   },
   portChoices: {
-    flexDirection: 'row',
-    justifyContent: 'space-around',
+    flexDirection: "row",
+    justifyContent: "space-around",
   },
   search: {
-    backgroundColor: '#F9F9F9',
+    backgroundColor: "#F9F9F9",
     paddingVertical: 5,
     marginVertical: 2,
   },
@@ -105,23 +102,23 @@ const styles = StyleSheet.create({
     paddingVertical: 5,
     borderWidth: 1,
     borderRadius: 10,
-    borderColor: '#7388FF',
+    borderColor: "#7388FF",
     fontSize: 14,
-    backgroundColor: '#ffffff',
+    backgroundColor: "#ffffff",
   },
   searchTabs: {
-    flexDirection: 'row',
-    justifyContent: 'space-around',
+    flexDirection: "row",
+    justifyContent: "space-around",
   },
   blandUnit: {
-    flexDirection: 'row',
+    flexDirection: "row",
     borderBottomWidth: 1,
-    borderBottomColor: '#DADADA',
+    borderBottomColor: "#DADADA",
     paddingHorizontal: 12,
     paddingVertical: 6,
   },
   title: {
-    flexDirection: 'row',
+    flexDirection: "row",
     marginTop: 7,
   },
   blandTitle: {
@@ -131,28 +128,28 @@ const styles = StyleSheet.create({
     marginLeft: 160,
   },
   bland: {
-    flexDirection: 'row',
+    flexDirection: "row",
   },
   blandTicker: {
-    color: '#8B8B94',
+    color: "#8B8B94",
     fontSize: 12,
   },
   blandName: {
     lineHeight: 30,
     fontSize: 16,
-    fontWeight: 'bold',
+    fontWeight: "bold",
   },
   marketCap: {
     fontSize: 16,
-    fontWeight: 'bold',
+    fontWeight: "bold",
     marginTop: 10,
-    position: 'absolute',
+    position: "absolute",
     left: 220,
   },
   addButtton: {
     marginTop: 15,
     paddingHorizontal: 10,
-    position: 'absolute',
+    position: "absolute",
     right: 10,
   },
 });

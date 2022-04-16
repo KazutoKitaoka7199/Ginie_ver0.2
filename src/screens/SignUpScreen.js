@@ -1,24 +1,19 @@
-import { View, Text, StyleSheet, Alert } from 'react-native'
-import { TextInput } from 'react-native-paper';
-import React, {useState} from 'react'
-import Button from '../components/Button';
-import { auth } from '../components/Firebase';
-import { createUserWithEmailAndPassword } from 'firebase/auth';
-import { translateErrors } from '../utilities';
+import {View, Text, StyleSheet, Alert} from "react-native";
+import {TextInput} from "react-native-paper";
+import React, {useState} from "react";
+import Button from "../components/Button";
+import {auth} from "../components/Firebase";
+import {createUserWithEmailAndPassword} from "firebase/auth";
+import {translateErrors} from "../utilities";
 
 export default function SignUpScreen(props) {
-  const { navigation } = props;
-  const [email, setEmail] = useState('');
-  const [pass, setPass] = useState('');
+  const {navigation} = props;
+  const [email, setEmail] = useState("");
+  const [pass, setPass] = useState("");
 
   const handlePress = async () => {
     try {
       await createUserWithEmailAndPassword(auth, email, pass);
-      navigation.reset({
-        index: 0,
-        routes: [{ name: 'main' }],
-      });
-      console.log(auth.currentUser)
     } catch (error) {
       const errormsg = translateErrors(error.code);
       Alert.alert(errormsg.title, errormsg.description);
@@ -36,7 +31,9 @@ export default function SignUpScreen(props) {
             label="Email Address"
             placeholder="Email Address"
             value={email}
-            onChangeText={(text) => { setEmail(text); }}
+            onChangeText={(text) => {
+              setEmail(text);
+            }}
             left={<TextInput.Icon name="email-outline" />}
             style={styles.input}
             autoCapitalize="none"
@@ -49,7 +46,9 @@ export default function SignUpScreen(props) {
             label="Password"
             placeholder="Paddword"
             value={pass}
-            onChangeText={(text) => { setPass(text); }}
+            onChangeText={(text) => {
+              setPass(text);
+            }}
             secureTextEntry
             left={<TextInput.Icon name="lock-outline" />}
             right={<TextInput.Icon name="eye" />}
@@ -58,38 +57,35 @@ export default function SignUpScreen(props) {
             textContentType="password"
           />
         </View>
-        <Button
-          label="はじめる"
-          style={styles.style}
-          onPress={handlePress}
-        />
+        <Button label="はじめる" style={styles.style} onPress={handlePress} />
         <View style={styles.footer}>
           <Text style={styles.footerText}>既にアカウントをお持ちの方は</Text>
-          <Text style={styles.footerLink}
-                onPress={() => {
-                  navigation.reset({
-                    index: 0,
-                    routes: [{ name: 'logIn' }],
-                  });
-                }}
+          <Text
+            style={styles.footerLink}
+            onPress={() => {
+              navigation.reset({
+                index: 0,
+                routes: [{name: "logIn"}],
+              });
+            }}
           >
             こちらからログイン
           </Text>
         </View>
       </View>
     </View>
-  )
+  );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#ffffff',
+    backgroundColor: "#ffffff",
   },
   title: {
     fontSize: 24,
     lineHeight: 32,
-    fontWeight: 'bold',
+    fontWeight: "bold",
     marginTop: 80,
     marginBottom: 24,
   },
@@ -97,26 +93,26 @@ const styles = StyleSheet.create({
     paddingHorizontal: 21,
   },
   input: {
-    borderColor: '#DDDDDD',
-    backgroundColor: '#ffffff',
+    borderColor: "#DDDDDD",
+    backgroundColor: "#ffffff",
   },
   style: {
     width: 330,
-    alignSelf: 'auto',
+    alignSelf: "auto",
     borderRadius: 10,
     left: 15,
     marginTop: 40,
   },
   footer: {
-    flexDirection: 'row',
-    justifyContent: 'center',
+    flexDirection: "row",
+    justifyContent: "center",
   },
   footerText: {
-    color: '#A2A2A7',
+    color: "#A2A2A7",
   },
   footerLink: {
     fontSize: 14,
-    fontWeight: 'bold',
-    color: '#0066FF',
+    fontWeight: "bold",
+    color: "#0066FF",
   },
 });

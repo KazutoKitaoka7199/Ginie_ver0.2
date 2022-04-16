@@ -1,40 +1,22 @@
-import { View, Text, StyleSheet, Alert } from 'react-native'
-import { TextInput } from 'react-native-paper';
-import React, {useState, useEffect} from 'react'
-import Button from '../components/Button';
-import { signInWithEmailAndPassword, onAuthStateChanged } from 'firebase/auth';
-import { auth } from '../components/Firebase';
-import { translateErrors } from '../utilities';
-import Loading from '../components/Loading';
+import {View, Text, StyleSheet, Alert} from "react-native";
+import {TextInput} from "react-native-paper";
+import React, {useState, useEffect} from "react";
+import Button from "../components/Button";
+import {signInWithEmailAndPassword, onAuthStateChanged} from "firebase/auth";
+import {auth} from "../components/Firebase";
+import {translateErrors} from "../utilities";
+import Loading from "../components/Loading";
 
 export default function LogInScreen(props) {
-  const { navigation } = props;
-  const [email, setEmail] = useState('');
-  const [pass, setPass] = useState('');
-  const [isLoading, setIsLoading] = useState(true);
-
-  useEffect(() => {
-    const unSub = onAuthStateChanged(auth, (user) => {
-      if (user) {
-        navigation.reset({
-          index: 0,
-          routes: [{ name: 'main' }],
-        });
-      } else {
-        setIsLoading(false);
-      }
-    });
-    return () => unSub();
-  }, []);
+  const {navigation} = props;
+  const [email, setEmail] = useState("");
+  const [pass, setPass] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
   const handlePress = async () => {
     try {
       setIsLoading(true);
       await signInWithEmailAndPassword(auth, email, pass);
-      navigation.reset({
-        index: 0,
-        routes: [{ name: 'main' }],
-      });
       setIsLoading(false);
     } catch (error) {
       const errorMsg = translateErrors(error.code);
@@ -45,7 +27,7 @@ export default function LogInScreen(props) {
 
   return (
     <View style={styles.container}>
-      <Loading isLoading={isLoading}/>
+      <Loading isLoading={isLoading} />
       <View style={styles.inner}>
         <View>
           <Text style={styles.title}>ログイン</Text>
@@ -55,7 +37,9 @@ export default function LogInScreen(props) {
             label="Email Address"
             placeholder="Email Address"
             value={email}
-            onChangeText={(text) => { setEmail(text); }}
+            onChangeText={(text) => {
+              setEmail(text);
+            }}
             left={<TextInput.Icon name="email-outline" />}
             style={styles.input}
             autoCapitalize="none"
@@ -68,7 +52,9 @@ export default function LogInScreen(props) {
             label="Password"
             placeholder="Paddword"
             value={pass}
-            onChangeText={(text) => { setPass(text); }}
+            onChangeText={(text) => {
+              setPass(text);
+            }}
             secureTextEntry
             left={<TextInput.Icon name="lock-outline" />}
             right={<TextInput.Icon name="eye" />}
@@ -77,38 +63,35 @@ export default function LogInScreen(props) {
             textContentType="password"
           />
         </View>
-        <Button
-          label="はじめる"
-          style={styles.style}
-          onPress={handlePress}
-        />
+        <Button label="はじめる" style={styles.style} onPress={handlePress} />
         <View style={styles.footer}>
           <Text style={styles.footerText}>新規ユーザーの方は</Text>
-          <Text style={styles.footerLink}
-                onPress={() => {
-                  navigation.reset({
-                    index: 0,
-                    routes: [{ name: 'signUp' }],
-                  });
-                }}
+          <Text
+            style={styles.footerLink}
+            onPress={() => {
+              navigation.reset({
+                index: 0,
+                routes: [{name: "signUp"}],
+              });
+            }}
           >
             こちらから登録
           </Text>
         </View>
       </View>
     </View>
-  )
+  );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#ffffff',
+    backgroundColor: "#ffffff",
   },
   title: {
     fontSize: 24,
     lineHeight: 32,
-    fontWeight: 'bold',
+    fontWeight: "bold",
     marginTop: 80,
     marginBottom: 24,
   },
@@ -116,26 +99,26 @@ const styles = StyleSheet.create({
     paddingHorizontal: 21,
   },
   input: {
-    borderColor: '#DDDDDD',
-    backgroundColor: '#ffffff',
+    borderColor: "#DDDDDD",
+    backgroundColor: "#ffffff",
   },
   style: {
     width: 330,
-    alignSelf: 'auto',
+    alignSelf: "auto",
     borderRadius: 10,
     left: 15,
     marginTop: 40,
   },
   footer: {
-    flexDirection: 'row',
-    justifyContent: 'center',
+    flexDirection: "row",
+    justifyContent: "center",
   },
   footerText: {
-    color: '#A2A2A7',
+    color: "#A2A2A7",
   },
   footerLink: {
     fontSize: 14,
-    fontWeight: 'bold',
-    color: '#0066FF',
+    fontWeight: "bold",
+    color: "#0066FF",
   },
 });
