@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, SafeAreaView, FlatList, Image} from "react-native";
+import { View, Text, StyleSheet, SafeAreaView, FlatList, Image, ScrollView} from "react-native";
 import React, {useEffect, useState} from "react";
 
 import StockData from "../src/StockData";
@@ -14,6 +14,8 @@ function comma(num) {
 
 export default function TickerDetailScreen({}) {
 const [data, setData] = useState(null);
+const [news, setNews] = useState(null);
+const [market, setMarket] = useState(null);
 const [isLoading, setIsLoading] = useState(true);
   
   useEffect(() => {
@@ -22,43 +24,40 @@ const [isLoading, setIsLoading] = useState(true);
       .then((json) => setData(json))
   }, []);
 
-  const renderItem = ((item) => {
-    return (
-      <View style={styles.bland}>
-        <Image
-          source={item.imageUrl}
-          style={{ width: 40, height: 40 }}
-        />
-        <View style={{ marginLeft: 12 }}>
-          <Text style={styles.blandTicker}>{item.ticker}</Text>
-          <Text style={styles.blandName}>{item.name}</Text>
-        </View>
-        <Text style={styles.marketCap}>${comma(item.totalPrice)}K</Text>
-      </View>
-    );
-  })
+  useEffect(() => {
+    fetch(`https://api.polygon.io/v2/reference/news?apiKey=${prygonApikey}`)
+      .then((res) => res.json())
+      .then((json) => setNews(json))
+  }, []);
 
+  console.log(news);
+
+  useEffect(() => {
+    fetch(`https://api.polygon.io/v2/aggs/ticker/AAPL/range/1/day/2021-07-22/2021-07-22?adjusted=true&sort=asc&limit=120&apiKey=${prygonApikey}`)
+      .then((res) => res.json())
+      .then((json) => setMarket(json))
+  }, []);
+
+  // const arrayData = Object.entries(data);
+  // console.log(arrayData);
+  if (data == null) {
+    return (
+     <Loading /> 
+    )
+  } 
   return (
     <SafeAreaView style={styles.container}>
       <Appbar />
-      {console.log("loading")}
-      {isLoading ? <Loading /> :(
-        <FlatList
-          data={data}
-          renderItem={({ item }) => {
-            return (
-              <TickerDetail
-                branding={item.branding.icon_url}
-                description={item.description}
-                market_cap={item.marketCap}
-                name={item.name}
-                ticker={item.ticker}
-              />
-            )
-          }}
-          keyExtractor={(_item, index) => index.toString()}
+      {/* {console.log(data)} */}
+      <ScrollView>
+        <TickerDetail
+          branding={`${data.results.branding.icon_url}?apiKey=${prygonApikey}`}
+          description={data.results.description}
+          market_cap={data.results.marketCap}
+          name={data.results.name}
+          ticker={data.results.ticker}
         />
-      )}
+      </ScrollView>
     </SafeAreaView>
   );
 }

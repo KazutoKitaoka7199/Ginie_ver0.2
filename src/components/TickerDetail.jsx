@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, View, Image, Text, TouchableOpacity } from 'react-native';
+import { StyleSheet, View, Image, Text } from 'react-native';
 import Button from './Button';
 
 export default function ListItem({branding, description, market_cap, name, ticker}) {
@@ -7,11 +7,11 @@ export default function ListItem({branding, description, market_cap, name, ticke
     <View>
       <View>
         <View>
-          {!!branding.icon_url
+          {!!branding
             && (
             <Image
-              style={{ width: 100, height: 100 }}
-              source={{ uri: branding.icon_url }}
+              style={{ width: 48, height: 48 }}
+              source={{ uri: branding }}
             />
             )}
         </View>
@@ -27,6 +27,7 @@ export default function ListItem({branding, description, market_cap, name, ticke
       </View>
       <View>
         <Text>ニュース</Text>
+        <Text>{ }</Text>
       </View>
     </View>
   );
