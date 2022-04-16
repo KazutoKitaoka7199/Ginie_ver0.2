@@ -1,8 +1,8 @@
 import { View, Text, StyleSheet, Alert } from 'react-native'
 import { TextInput } from 'react-native-paper';
-import React, {useState, useEffect} from 'react'
+import React, {useState} from 'react'
 import Button from '../components/Button';
-import { signInWithEmailAndPassword, onAuthStateChanged } from 'firebase/auth';
+import { signInWithEmailAndPassword } from 'firebase/auth';
 import { auth } from '../components/Firebase';
 import { translateErrors } from '../utilities';
 import Loading from '../components/Loading';
@@ -11,30 +11,12 @@ export default function LogInScreen(props) {
   const { navigation } = props;
   const [email, setEmail] = useState('');
   const [pass, setPass] = useState('');
-  const [isLoading, setIsLoading] = useState(true);
-
-  useEffect(() => {
-    const unSub = onAuthStateChanged(auth, (user) => {
-      if (user) {
-        navigation.reset({
-          index: 0,
-          routes: [{ name: 'main' }],
-        });
-      } else {
-        setIsLoading(false);
-      }
-    });
-    return () => unSub();
-  }, []);
+  const [isLoading, setIsLoading] = useState(false);
 
   const handlePress = async () => {
     try {
       setIsLoading(true);
       await signInWithEmailAndPassword(auth, email, pass);
-      navigation.reset({
-        index: 0,
-        routes: [{ name: 'main' }],
-      });
       setIsLoading(false);
     } catch (error) {
       const errorMsg = translateErrors(error.code);

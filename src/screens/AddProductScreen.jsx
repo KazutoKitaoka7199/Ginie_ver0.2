@@ -6,7 +6,8 @@ import {
   TextInput,
   Image,
   FlatList,
-  Pressable
+  Pressable,
+  SafeAreaView
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import Appbar from '../components/AppBar';
@@ -37,7 +38,7 @@ export default function AddProductScreen() {
   }
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       <View>
         <View>
           <Appbar title="資産運用" />
@@ -75,7 +76,7 @@ export default function AddProductScreen() {
           />
         </View>
       </View>
-    </View>
+    </SafeAreaView>
   );
 }
 

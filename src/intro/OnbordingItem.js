@@ -28,7 +28,7 @@ export default function OnbordingItem({ item }) {
               left: 15,
               bottom: 10
             }}
-            onPress={() => navigation.navigate('login')}
+            onPress={() => navigation.navigate('logIn')}
           />}
       </View>
     </View>

@@ -16,7 +16,7 @@ export default function TickerDetailScreen({}) {
 const [data, setData] = useState(null);
 const [news, setNews] = useState(null);
 const [market, setMarket] = useState(null);
-const [isLoading, setIsLoading] = useState(true);
+const [isLoading, setIsLoading] = useState(true);  
   
   useEffect(() => {
     fetch(`https://api.polygon.io/v3/reference/tickers/AAPL?apiKey=${prygonApikey}`)
@@ -38,6 +38,8 @@ const [isLoading, setIsLoading] = useState(true);
       .then((json) => setMarket(json))
   }, []);
 
+  // console.log(market);
+
   // const arrayData = Object.entries(data);
   // console.log(arrayData);
   if (data == null) {
@@ -53,7 +55,7 @@ const [isLoading, setIsLoading] = useState(true);
         <TickerDetail
           branding={`${data.results.branding.icon_url}?apiKey=${prygonApikey}`}
           description={data.results.description}
-          market_cap={data.results.marketCap}
+          market_cap={comma(data.results.market_cap)}
           name={data.results.name}
           ticker={data.results.ticker}
         />
@@ -65,6 +67,7 @@ const [isLoading, setIsLoading] = useState(true);
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: '#ffffff',
   },
   blandUnit: {
     flexDirection: 'row',

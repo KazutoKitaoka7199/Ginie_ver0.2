@@ -14,12 +14,6 @@ export default function LogOutButton(props) {
   const navigation = useNavigation();
   function handlePress() {
     signOut(auth)
-      .then(() => {
-        navigation.reset({
-          index: 0,
-          routes: [{ name: 'logIn' }],
-        });
-      })
       .catch(() => {
         Alert.alert('ログアウトに失敗しました');
       });
@@ -27,11 +21,7 @@ export default function LogOutButton(props) {
   return (
     // eslint-disable-next-line react/jsx-no-bind
     <TouchableOpacity style={style} onPress={handlePress}>
-      <FontAwesome5
-            name="user"
-            size={20}
-            color="black"
-      />
+      <FontAwesome5 name="user" size={20} color="black"/>
     </TouchableOpacity>
   );
 }

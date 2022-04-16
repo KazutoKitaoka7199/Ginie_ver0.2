@@ -18,7 +18,6 @@ export default function SignUpScreen(props) {
         index: 0,
         routes: [{ name: 'main' }],
       });
-      console.log(auth.currentUser)
     } catch (error) {
       const errormsg = translateErrors(error.code);
       Alert.alert(errormsg.title, errormsg.description);
