@@ -1,14 +1,11 @@
-import { StatusBar } from 'expo-status-bar';
-import { LogBox } from 'react-native';
-import MainContainer from './navigation/MainContainer';
-import Landing from './src/intro/Landing';
-import Navigation from './src/intro/navigation/Navigation';
-import AllocationChart from './src/screens/AllocationChart';
+import {StatusBar} from "expo-status-bar";
+import {LogBox} from "react-native";
+import MainContainer from "./navigation/MainContainer";
+import Landing from "./src/intro/Landing";
+import Navigation from "./src/intro/navigation/Navigation";
 
-LogBox.ignoreLogs(['AsyncStorage']);
+LogBox.ignoreLogs(["AsyncStorage"]);
 
 export default function App() {
-  return (
-      <Navigation />
-  );
+  return <Navigation />;
 }

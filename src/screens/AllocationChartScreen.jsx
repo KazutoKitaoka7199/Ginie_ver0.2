@@ -1,4 +1,4 @@
-import React, {useState, useCallback} from "react";
+import React, {useState, useCallback, useEffect} from "react";
 import {
   View,
   Text,
@@ -10,60 +10,73 @@ import {
   Pressable,
 } from "react-native";
 import Appbar from "../components/AppBar";
+import {
+  getDocs,
+  collection,
+  onSnapshot,
+  updateDoc,
+  doc,
+} from "firebase/firestore";
+import {db, auth} from "../components/Firebase";
 import {PieChart} from "react-native-chart-kit";
 
 const INNER_CIRCLE_SIZE = 150;
 
-export default function AllocationChart() {
-  const [chartData, setchartData] = useState([
-    {
-      id: 1,
-      name: "株式1",
-      population: 60,
-      color: "rgba(131, 167, 234, 1)",
-    },
-    {
-      id: 2,
-      name: "株式2",
-      population: 20,
-      color: "blue",
-    },
-    {
-      id: 3,
-      name: "株式3",
-      population: 10,
-      color: "red",
-    },
-    {
-      id: 4,
-      name: "株式4",
-      population: 10,
-      color: "green",
-    },
-  ]);
+const COLORS = ["red", "green", "white", "pink", "yellow", "blue"];
 
-  const addPopulation = useCallback(
-    (item) => {
-      setchartData((charData) => {
-        return charData.map((chartDataItem) => {
-          if (item.id !== chartDataItem.id) return chartDataItem;
-          return {...chartDataItem, population: chartDataItem.population + 1};
+export default function AllocationChartScreen() {
+  const [chartData, setChartData] = useState([]);
+
+  useEffect(() => {
+    if (!auth.currentUser) return;
+
+    const userId = auth.currentUser.uid;
+    const unsubscribe = onSnapshot(
+      collection(db, `user/${userId}/portfolio`),
+      (querySnapshot) => {
+        const res = [];
+
+        querySnapshot.forEach((doc) => {
+          res.push({
+            id: doc.id,
+            ...doc.data(),
+            color: COLORS[res.length] || "red",
+          });
         });
-      });
+
+        const blankRatio =
+          100 - res.reduce((prev, current) => current.ratio + prev, 0);
+
+        setChartData([
+          ...res,
+          {id: null, ticker: "未配分", ratio: blankRatio, color: "gray"},
+        ]);
+      }
+    );
+
+    return () => {
+      return unsubscribe();
+    };
+  }, []);
+
+  const incrementRatio = useCallback(
+    (item) => {
+      if (!auth.currentUser) return;
+      const userId = auth.currentUser.uid;
+      const documentRef = doc(db, "user", userId, "portfolio", item.id);
+      updateDoc(documentRef, {ratio: item.ratio + 1});
     },
-    [setchartData]
+    [setChartData]
   );
 
   const minusPopulation = useCallback(
     (item) => {
-      setchartData((charData) => {
-        return charData.map((chartDataItem) => {
-          if (item.id !== chartDataItem.id) return chartDataItem;
-          return {...chartDataItem, population: chartDataItem.population - 1};
-        });
-      });
+      if (!auth.currentUser) return;
+      const userId = auth.currentUser.uid;
+      const documentRef = doc(db, "user", userId, "portfolio", item.id);
+      updateDoc(documentRef, {ratio: item.ratio - 1});
     },
-    [setchartData]
+    [setChartData]
   );
 
   return (
@@ -72,7 +85,6 @@ export default function AllocationChart() {
         <View>
           <Appbar title="資産運用" />
         </View>
-        <Text>配分調整</Text>
         <View style={{position: "relative"}}>
           <PieChart
             data={chartData}
@@ -84,7 +96,7 @@ export default function AllocationChart() {
               backgroundGradientTo: "#08130D",
               color: (opacity = 1) => `rgba(26, 255, 146, ${opacity})`,
             }}
-            accessor={"population"}
+            accessor={"ratio"}
             backgroundColor={"transparent"}
             center={[Dimensions.get("window").width / 4, 0]}
             hasLegend={false}
@@ -106,11 +118,11 @@ export default function AllocationChart() {
               }}
               key={data.id}
             >
-              <Text>{data.name}</Text>
+              <Text>{data.ticker}</Text>
 
-              <Text>{data.population}%</Text>
+              <Text>{data.ratio}%</Text>
 
-              <Pressable onPress={() => addPopulation(data)}>
+              <Pressable onPress={() => incrementRatio(data)}>
                 <Text>+</Text>
               </Pressable>
 

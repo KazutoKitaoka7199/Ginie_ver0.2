@@ -1,10 +1,10 @@
 // Firebase ver9 compliant (modular)
-import { initializeApp } from 'firebase/app';
-import { getAuth } from 'firebase/auth';
-import { getFirestore } from 'firebase/firestore';
-import { getStorage } from 'firebase/storage';
+import {initializeApp} from "firebase/app";
+import {getAuth} from "firebase/auth";
+import {getFirestore} from "firebase/firestore";
+import {getStorage} from "firebase/storage";
 
-import { firebaseConfig } from '../../env';
+import {firebaseConfig} from "../../env";
 
 const Firebase = initializeApp(firebaseConfig);
 
