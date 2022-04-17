@@ -1,0 +1,82 @@
+import React from 'react';
+import { View, Text } from 'react-native';
+import { NavigationContainer } from '@react-navigation/native';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { Ionicons } from '@expo/vector-icons';
+
+import InvestScreen from './bottombar/InvestScreen';
+import CheckingScreen from './bottombar/CheckingScreen';
+import PaymentScreen from './bottombar/PaymentScreen';
+import BorrowScreen from './bottombar/BorrowScreen';
+import TickerDetailScreen from '../src/screens/TickerDetailScreen';
+import AllocationChartScreen from '../src/screens/AllocationChartScreen';
+
+const Tab = createBottomTabNavigator();
+const Stack = createNativeStackNavigator();
+
+function InvestPage() {
+  return (
+    <NavigationContainer independent={true}>
+      <Stack.Navigator
+        initialRouteName="invest"
+        screenOptions={{
+          headerShown: false,
+          tabBarActiveTintColor: '#0066FF',
+        }}
+      >
+        <Stack.Screen name="invest" component={InvestScreen} />
+        <Stack.Screen name="tickerDetail" component={TickerDetailScreen} />
+        <Stack.Screen name="allocationChart" component={AllocationChartScreen} />
+      </Stack.Navigator>
+    </NavigationContainer>
+  );
+}
+
+//screen names
+const InvestScreenName = "資産運用";
+const CheckingScreenName = "決済口座";
+const PaymentScreenName = "入金";
+const BorrowScreenName = "借入"
+
+export default function MainContainer() {
+  return (
+    <NavigationContainer independent={true}>
+      <Tab.Navigator
+        initialRouteName={InvestScreenName}
+        screenOptions={({ route }) => ({
+          headerShown: false,
+          tabBarActiveTintColor: '#0066FF',
+          tabBarIcon: ({ focused, color, size }) => {
+            let iconName;
+            let rn = route.name;
+
+            if (rn === InvestScreenName)
+            {
+              iconName = focused ? 'pie-chart' : 'pie-chart-outline';
+
+            } else if (rn === CheckingScreenName)
+            {
+              iconName = focused ? 'wallet' : 'wallet-outline';
+
+            } else if (rn === PaymentScreenName)
+            {
+              iconName = focused ? 'md-download' : 'md-download-outline';
+            } else if (rn === BorrowScreenName)
+            {
+              iconName = focused ? 'cash' : 'cash-outline';
+            }
+            // You can return any component that you like here!
+            return <Ionicons name={iconName} size={size} color={color} />;
+          }
+        })
+      }
+      >
+        <Tab.Screen name={InvestScreenName} component={InvestPage} />
+        <Tab.Screen name={CheckingScreenName} component={CheckingScreen} />
+        <Tab.Screen name={PaymentScreenName} component={PaymentScreen} />
+        <Tab.Screen name={BorrowScreenName} component={BorrowScreen} />
+      </Tab.Navigator>
+    </NavigationContainer>
+  );
+}

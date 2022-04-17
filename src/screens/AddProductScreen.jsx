@@ -7,11 +7,13 @@ import {
   Image,
   FlatList,
   Pressable,
-  SafeAreaView
+  SafeAreaView,
+  Alert
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import Appbar from '../components/AppBar';
 import StockData from '../src/StockData';
+import { Ionicons } from '@expo/vector-icons';
 
 export default function AddProductScreen() {
   const navigation = useNavigation();
@@ -30,12 +32,16 @@ export default function AddProductScreen() {
               <Text style={styles.blandName}>{item.name}</Text>
             </View>
             <Text style={styles.marketCap}>${comma(item.totalPrice)}K</Text>
+            <Pressable
+              onPress={() => Alert.alert(`${item.name}を追加しました！`)}
+            >
+              <Ionicons name="add-circle-outline" size={24} color="black" style={styles.addButtton}/>
+            </Pressable>
           </View>
-          <Text style={styles.addButtton}>⊕</Text>
         </View>
       </Pressable>
     );
-  }
+  };
 
   return (
     <SafeAreaView style={styles.container}>
@@ -68,14 +74,17 @@ export default function AddProductScreen() {
           </View>
         </View>
 
-        <View style={styles.container}>
           <FlatList
             data={StockData}
             renderItem={renderItem}
             keyExtractor={(item) => item.key}
-          />
+        />
+          <View styl={{padding: 16}}>
+            <Pressable onPress={() => navigation.navigate("allocationChart")}>
+              <Text>配分調整</Text>
+            </Pressable>
+          </View>
         </View>
-      </View>
     </SafeAreaView>
   );
 }
@@ -87,8 +96,7 @@ function comma(num) {
 
 const styles = StyleSheet.create({
   container: {
-    width: '100%',
-    height: '100%',
+    flex: 1,
   },
   portChoices: {
     flexDirection: 'row',
@@ -132,7 +140,10 @@ const styles = StyleSheet.create({
     marginLeft: 160,
   },
   bland: {
-    flexDirection: 'row',
+    width: "100%",
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
   },
   blandTicker: {
     color: '#8B8B94',
@@ -146,14 +157,10 @@ const styles = StyleSheet.create({
   marketCap: {
     fontSize: 16,
     fontWeight: 'bold',
-    marginTop: 10,
-    position: 'absolute',
-    left: 220,
+    marginLeft: 'auto',
   },
   addButtton: {
-    marginTop: 15,
     paddingHorizontal: 10,
-    position: 'absolute',
-    right: 10,
+    fontSize: 24,
   },
 });
