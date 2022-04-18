@@ -6,17 +6,19 @@ import Loading from '../components/Loading';
 import Appbar from "../components/AppBar";
 import TickerDetail from '../components/TickerDetail';
 import { prygonApikey } from "../../env";
+import ListItem from "../components/ListItem";
 
 // 3桁カンマ区切りとする.
 function comma(num) {
   return String(num).replace( /(\d)(?=(\d\d\d)+(?!\d))/g, '$1,');
 }
 
-export default function TickerDetailScreen({}) {
-const [data, setData] = useState(null);
-const [news, setNews] = useState(null);
-const [market, setMarket] = useState(null);
-const [isLoading, setIsLoading] = useState(true);  
+export default function TickerDetailScreen({ route }) {
+  const { ticker } = route.params;
+  const [data, setData] = useState(null);
+  const [news, setNews] = useState(null);
+  const [market, setMarket] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);  
   
   useEffect(() => {
     fetch(`https://api.polygon.io/v3/reference/tickers/AAPL?apiKey=${prygonApikey}`)
@@ -25,12 +27,13 @@ const [isLoading, setIsLoading] = useState(true);
   }, []);
 
   useEffect(() => {
-    fetch(`https://api.polygon.io/v2/reference/news?apiKey=${prygonApikey}`)
+    fetch(`https://api.polygon.io/v2/reference/news?ticker=AAPL&apiKey=${prygonApikey}`)
       .then((res) => res.json())
       .then((json) => setNews(json))
   }, []);
 
-  console.log(news);
+  // const image_url = data.results;
+  // console.log(image_url);
 
   useEffect(() => {
     fetch(`https://api.polygon.io/v2/aggs/ticker/AAPL/range/1/day/2021-07-22/2021-07-22?adjusted=true&sort=asc&limit=120&apiKey=${prygonApikey}`)
@@ -42,7 +45,7 @@ const [isLoading, setIsLoading] = useState(true);
 
   // const arrayData = Object.entries(data);
   // console.log(arrayData);
-  if (data == null) {
+  if (data == null && news == null) {
     return (
      <Loading /> 
     )
@@ -59,6 +62,20 @@ const [isLoading, setIsLoading] = useState(true);
           name={data.results.name}
           ticker={data.results.ticker}
         />
+        <FlatList
+        // FlatListで表示したいデータ
+        data={news}
+        // itemにはarticlesの１項目のarticleが入ってくる
+        renderItem={({ item }) => (
+          <ListItem
+            imageUrl={item.results.image_url}
+            title={item.results.title}
+            auther={item.results.author}
+            onPress={() => navigation.navigate('Article', { article: item })}
+          />
+        )}
+        keyExtractor={(_item, index) => index.toString()}
+      />
       </ScrollView>
     </SafeAreaView>
   );

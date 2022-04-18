@@ -2,7 +2,7 @@ import React from 'react';
 import { StyleSheet, View, Image, Text } from 'react-native';
 import Button from './Button';
 
-export default function ListItem({branding, description, market_cap, name, ticker}) {
+export default function TickerDetail({branding, description, market_cap, name, ticker}) {
   return (
     <View syle={styles.container}>
       <View  style={styles.item}>
@@ -64,7 +64,11 @@ export default function ListItem({branding, description, market_cap, name, ticke
       <View style={styles.info}>
         <Text style={styles.title}>ニュース</Text>
         <View style={styles.detail}>
-          <Text>{}</Text>
+          <View>
+            <Text>{ }</Text>
+            <Text>{ }</Text>
+          </View>
+          <Image />
         </View>
       </View>
     </View>

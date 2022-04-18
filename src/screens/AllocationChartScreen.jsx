@@ -35,7 +35,6 @@ export default function AllocationChartScreen() {
             color: COLORS[res.length] || "red",
           });
         });
-        console.log(res);
 
         const blankRatio = 100 - res.reduce((prev, current) => current.ratio + prev, 0);
         setChartData([

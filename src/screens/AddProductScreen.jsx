@@ -20,7 +20,7 @@ export default function AddProductScreen() {
 
   const renderItem = ({ item }) => {
     return (
-      <Pressable onPress={() => navigation.navigate("tickerDetail")}>
+      <Pressable onPress={() => navigation.navigate("tickerDetail",{ ticker: item })}>
         <View style={styles.blandUnit}>
           <View style={styles.bland}>
             <Image

@@ -10,6 +10,7 @@ import CheckingScreen from './bottombar/CheckingScreen';
 import PaymentScreen from './bottombar/PaymentScreen';
 import BorrowScreen from './bottombar/BorrowScreen';
 import TickerDetailScreen from '../src/screens/TickerDetailScreen';
+import ArticleScreen from '../src/screens/ArticleScreen';
 import AllocationChartScreen from '../src/screens/AllocationChartScreen';
 
 const Tab = createBottomTabNavigator();
@@ -21,12 +22,13 @@ function InvestPage() {
       <Stack.Navigator
         initialRouteName="invest"
         screenOptions={{
-          headerShown: false,
+          headerShown: true,
           tabBarActiveTintColor: '#0066FF',
         }}
       >
         <Stack.Screen name="invest" component={InvestScreen} />
         <Stack.Screen name="tickerDetail" component={TickerDetailScreen} />
+        <Stack.Screen name="Article" component={ArticleScreen} />
         <Stack.Screen name="allocationChart" component={AllocationChartScreen} />
       </Stack.Navigator>
     </NavigationContainer>
