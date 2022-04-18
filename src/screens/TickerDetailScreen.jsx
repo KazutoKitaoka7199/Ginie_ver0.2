@@ -1,16 +1,24 @@
-import { View, Text, StyleSheet, SafeAreaView, FlatList, Image, ScrollView} from "react-native";
-import React, {useEffect, useState} from "react";
+import {
+  View,
+  Text,
+  StyleSheet,
+  SafeAreaView,
+  FlatList,
+  Image,
+  ScrollView,
+} from 'react-native';
+import React, { useEffect, useState } from 'react';
 
-import StockData from "../src/StockData";
+import StockData from '../src/StockData';
 import Loading from '../components/Loading';
-import Appbar from "../components/AppBar";
+import Appbar from '../components/AppBar';
 import TickerDetail from '../components/TickerDetail';
-import { prygonApikey } from "../../env";
-import ListItem from "../components/ListItem";
+import { prygonApikey } from '../../env';
+import ListItem from '../components/ListItem';
 
 // 3桁カンマ区切りとする.
 function comma(num) {
-  return String(num).replace( /(\d)(?=(\d\d\d)+(?!\d))/g, '$1,');
+  return String(num).replace(/(\d)(?=(\d\d\d)+(?!\d))/g, '$1,');
 }
 
 export default function TickerDetailScreen({ route }) {
@@ -18,38 +26,44 @@ export default function TickerDetailScreen({ route }) {
   const [data, setData] = useState(null);
   const [news, setNews] = useState(null);
   const [market, setMarket] = useState(null);
-  const [isLoading, setIsLoading] = useState(true);  
-  
+  const [isLoading, setIsLoading] = useState(true);
+
+  console.log(ticker);
+
   useEffect(() => {
-    fetch(`https://api.polygon.io/v3/reference/tickers/AAPL?apiKey=${prygonApikey}`)
+    fetch(
+      `https://api.polygon.io/v3/reference/tickers/AAPL?apiKey=${prygonApikey}`
+    )
       .then((res) => res.json())
-      .then((json) => setData(json))
+      .then((json) => setData(json));
   }, []);
 
   useEffect(() => {
-    fetch(`https://api.polygon.io/v2/reference/news?ticker=AAPL&apiKey=${prygonApikey}`)
+    fetch(
+      `https://api.polygon.io/v2/reference/news?ticker=AAPL&apiKey=${prygonApikey}`
+    )
       .then((res) => res.json())
-      .then((json) => setNews(json))
+      .then((json) => setNews(json));
   }, []);
 
   // const image_url = data.results;
   // console.log(image_url);
 
   useEffect(() => {
-    fetch(`https://api.polygon.io/v2/aggs/ticker/AAPL/range/1/day/2021-07-22/2021-07-22?adjusted=true&sort=asc&limit=120&apiKey=${prygonApikey}`)
+    fetch(
+      `https://api.polygon.io/v2/aggs/ticker/AAPL/range/1/day/2021-07-22/2021-07-22?adjusted=true&sort=asc&limit=120&apiKey=${prygonApikey}`
+    )
       .then((res) => res.json())
-      .then((json) => setMarket(json))
+      .then((json) => setMarket(json));
   }, []);
 
   // console.log(market);
 
   // const arrayData = Object.entries(data);
   // console.log(arrayData);
-  if (data == null && news == null) {
-    return (
-     <Loading /> 
-    )
-  } 
+  if (data == null || news == null) {
+    return <Loading />;
+  }
   return (
     <SafeAreaView style={styles.container}>
       <Appbar />
@@ -62,20 +76,18 @@ export default function TickerDetailScreen({ route }) {
           name={data.results.name}
           ticker={data.results.ticker}
         />
-        <FlatList
-        // FlatListで表示したいデータ
-        data={news}
-        // itemにはarticlesの１項目のarticleが入ってくる
-        renderItem={({ item }) => (
-          <ListItem
-            imageUrl={item.results.image_url}
-            title={item.results.title}
-            auther={item.results.author}
-            onPress={() => navigation.navigate('Article', { article: item })}
-          />
-        )}
-        keyExtractor={(_item, index) => index.toString()}
-      />
+        {/* {news == null
+          ? null
+          : news.map((item) => (
+              <ListItem
+                imageUrl={item.results.image_url}
+                title={item.results.title}
+                auther={item.results.author}
+                onPress={() =>
+                  navigation.navigate('Article', { article: item })
+                }
+              />
+            ))} */}
       </ScrollView>
     </SafeAreaView>
   );
