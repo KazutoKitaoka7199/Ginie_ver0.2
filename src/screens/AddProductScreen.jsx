@@ -10,15 +10,14 @@ import {
   SafeAreaView,
   Alert
 } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
 import Appbar from '../components/AppBar';
 import StockData from '../src/StockData';
 import { Ionicons } from '@expo/vector-icons';
 import { db, auth } from '../components/Firebase';
 
-export default function AddProductScreen({ route }) {
+export default function AddProductScreen(props) {
+  const { route, navigation } = props;
   const { ticker } = route.params;
-  const navigation = useNavigation();
 
   const handlePress = async () => {
     try {
@@ -30,31 +29,11 @@ export default function AddProductScreen({ route }) {
         ticker: ticker,
       });
       console.log(userid);
+      navigation.navigate("allocationChart", { ticker });
     } catch (e) {
       Alert.alert('データの保存に失敗しました');
     }
   };
-
-
-  // function handlePress() {
-  //   const userid = auth.currentUser.uid;
-  //   if (user) {
-  //     const docRef = query(collection(db, `user/${userid}/portfolio`));
-  //     setDoc(doc(docRef, id), {
-  //       price: 10,
-  //       ratio: 20,
-  //       stockShare: 0.2,
-  //       ticker: "APPL",
-  //     }, { merge: true })
-  //       .then(() => {
-  //         Alert.alert("追加しました");
-  //       })
-  //       .catch((error) => {
-  //         const errorMsg = translateErrors(error.code);
-  //         Alert.alert(errorMsg.title, errorMsg.description);
-  //       });
-  //   }
-  // }
 
   const renderItem = ({ item }) => {
     return (
