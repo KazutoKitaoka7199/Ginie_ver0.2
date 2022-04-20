@@ -13,24 +13,24 @@ import {
 import Appbar from '../components/AppBar';
 import StockData from '../src/StockData';
 import { Ionicons } from '@expo/vector-icons';
+import { collection, addDoc } from 'firebase/firestore';
 import { db, auth } from '../components/Firebase';
+import { useNavigation } from '@react-navigation/native';
 
-export default function AddProductScreen(props) {
-  const { route, navigation } = props;
-  const { ticker } = route.params;
+export default function AddProductScreen() {
+  const navigation = useNavigation();
 
-  const handlePress = async () => {
+  const handlePress = async (ticker) => {
     try {
       const userid = auth.currentUser.uid;
-      await addDoc(collection(db, `user/${userid}/portfolio`), {
-        price,
-        ratio,
-        stockShare,
+      const data =  await addDoc(collection(db, `user/${userid}/portfolio`), {
+        price: 100,
+        ratio: 20,
+        stockShare: 0.2,
         ticker: ticker,
       });
-      console.log(userid);
-      navigation.navigate("allocationChart", { ticker });
-    } catch (e) {
+    } catch (e)
+    {
       Alert.alert('データの保存に失敗しました');
     }
   };
@@ -50,7 +50,7 @@ export default function AddProductScreen(props) {
             </View>
             <Text style={styles.marketCap}>${comma(item.totalPrice)}K</Text>
             <Pressable
-              onPress={handlePress}
+              onPress={() => handlePress(item.ticker)}
             >
               <Ionicons name="add-circle-outline" size={24} color="black" style={styles.addButtton}/>
             </Pressable>

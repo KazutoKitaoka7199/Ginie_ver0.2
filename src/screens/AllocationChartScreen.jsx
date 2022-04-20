@@ -5,6 +5,7 @@ import {
   StyleSheet,
   Dimensions,
   Pressable,
+  Alert
 } from "react-native";
 import Appbar from "../components/AppBar";
 import {
@@ -13,15 +14,35 @@ import {
   onSnapshot,
   updateDoc,
   doc,
+  setDoc,
+  query
 } from "firebase/firestore";
 import {db, auth} from "../components/Firebase";
-import {PieChart} from "react-native-chart-kit";
+import { PieChart } from "react-native-chart-kit";
 
 const INNER_CIRCLE_SIZE = 150;
 const COLORS = ["red", "green", "white", "pink", "yellow", "blue"];
 
 export default function AllocationChartScreen() {
   const [chartData, setChartData] = useState([]);
+
+  function Payment() {
+    const userid = auth.currentUser.uid;
+    
+      // ドル換算する処理
+      // stockShareを計算する処理
+      // Firestoreに書き込む処理 
+  
+    if (userid) {
+      const docRef = setDoc(doc(db,"portfolio"));
+      updateDoc(docRef, {
+        price: 200,
+        ratio: 30,
+        stockShare: 0.3,
+        ticker: "TESL",
+      });
+    }
+  }
 
   useEffect(() => {
     if (!auth.currentUser) return;
@@ -41,12 +62,11 @@ export default function AllocationChartScreen() {
           ...res,
           { id: null, ticker: "未配分", ratio: blankRatio, color: "gray" },
         ]);
-      });  
+      });
     return () => {
       return unsubscribe();
     };
   }, []);
-  
   const addPopulation = useCallback(
     (item) => {
       if (!auth.currentUser) return;
@@ -117,6 +137,9 @@ export default function AllocationChartScreen() {
             </View>
           ))}
         </View>
+        <Pressable onPress={()=> Alert.alert("入金！")}>
+          <Text>入金</Text>
+        </Pressable>
       </View>
     </View>
   );

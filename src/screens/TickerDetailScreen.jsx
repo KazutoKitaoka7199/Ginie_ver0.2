@@ -54,9 +54,6 @@ export default function TickerDetailScreen({route}) {
       .then((json) => setMarket(json));
   }, []);
 
-  // console.log(market);
-  console.log(news);
-
   if (data == null || news == null) {
     return <Loading />;
   }
