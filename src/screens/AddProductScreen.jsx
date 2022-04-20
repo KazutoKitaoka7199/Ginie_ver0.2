@@ -14,9 +14,47 @@ import { useNavigation } from '@react-navigation/native';
 import Appbar from '../components/AppBar';
 import StockData from '../src/StockData';
 import { Ionicons } from '@expo/vector-icons';
+import { db, auth } from '../components/Firebase';
 
-export default function AddProductScreen() {
+export default function AddProductScreen({ route }) {
+  const { ticker } = route.params;
   const navigation = useNavigation();
+
+  const handlePress = async () => {
+    try {
+      const userid = auth.currentUser.uid;
+      await addDoc(collection(db, `user/${userid}/portfolio`), {
+        price,
+        ratio,
+        stockShare,
+        ticker: ticker,
+      });
+      console.log(userid);
+    } catch (e) {
+      Alert.alert('データの保存に失敗しました');
+    }
+  };
+
+
+  // function handlePress() {
+  //   const userid = auth.currentUser.uid;
+  //   if (user) {
+  //     const docRef = query(collection(db, `user/${userid}/portfolio`));
+  //     setDoc(doc(docRef, id), {
+  //       price: 10,
+  //       ratio: 20,
+  //       stockShare: 0.2,
+  //       ticker: "APPL",
+  //     }, { merge: true })
+  //       .then(() => {
+  //         Alert.alert("追加しました");
+  //       })
+  //       .catch((error) => {
+  //         const errorMsg = translateErrors(error.code);
+  //         Alert.alert(errorMsg.title, errorMsg.description);
+  //       });
+  //   }
+  // }
 
   const renderItem = ({ item }) => {
     return (
@@ -33,7 +71,7 @@ export default function AddProductScreen() {
             </View>
             <Text style={styles.marketCap}>${comma(item.totalPrice)}K</Text>
             <Pressable
-              onPress={() => Alert.alert(`${item.name}を追加しました！`)}
+              onPress={handlePress}
             >
               <Ionicons name="add-circle-outline" size={24} color="black" style={styles.addButtton}/>
             </Pressable>

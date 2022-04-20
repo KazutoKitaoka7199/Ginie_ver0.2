@@ -15,7 +15,7 @@ const ArticleScreen = ({ route }) => {
   const { article } = route.params;
   return (
     <SafeAreaView style={styles.container}>
-      <WebView source={{ uri: article.url }} />
+      <WebView source={{ uri: article.article_url }} />
     </SafeAreaView>
   );
 };

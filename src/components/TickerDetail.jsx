@@ -2,7 +2,13 @@ import React from 'react';
 import { StyleSheet, View, Image, Text } from 'react-native';
 import Button from './Button';
 
-export default function TickerDetail({branding, description, market_cap, name, ticker}) {
+export default function TickerDetail({
+  branding,
+  description,
+  market_cap,
+  name,
+  ticker
+}) {
   return (
     <View syle={styles.container}>
       <View  style={styles.item}>
