@@ -16,6 +16,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { collection, addDoc } from 'firebase/firestore';
 import { db, auth } from '../components/Firebase';
 import { useNavigation } from '@react-navigation/native';
+import Button from '../components/Button';
 
 export default function AddProductScreen() {
   const navigation = useNavigation();
@@ -25,10 +26,11 @@ export default function AddProductScreen() {
       const userid = auth.currentUser.uid;
       const data =  await addDoc(collection(db, `user/${userid}/portfolio`), {
         price: 100,
-        ratio: 20,
+        ratio: 0,
         stockShare: 0.2,
         ticker: ticker,
       });
+      Alert.alert(`${ticker}を追加しました`);
     } catch (e)
     {
       Alert.alert('データの保存に失敗しました');
@@ -52,7 +54,7 @@ export default function AddProductScreen() {
             <Pressable
               onPress={() => handlePress(item.ticker)}
             >
-              <Ionicons name="add-circle-outline" size={24} color="black" style={styles.addButtton}/>
+              <Ionicons name="add-circle-outline" size={24} color="black" style={styles.addButton}/>
             </Pressable>
           </View>
         </View>
@@ -98,7 +100,7 @@ export default function AddProductScreen() {
         />
           <View styl={{padding: 16}}>
             <Pressable onPress={() => navigation.navigate("allocationChart")}>
-              <Text>配分調整</Text>
+              <Text style={styles.button}>配分調整</Text>
             </Pressable>
           </View>
         </View>
@@ -176,8 +178,18 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     marginLeft: 'auto',
   },
-  addButtton: {
+  addButton: {
     paddingHorizontal: 10,
     fontSize: 24,
   },
+  button: {
+    backgroundColor: '#0066FF',
+    borderRadius: 10,
+    textAlign: 'center',
+    width: 170,
+    color: '#ffffff',
+    marginVertical: 18,
+    paddingVertical: 5,
+    left: 100,
+  }
 });

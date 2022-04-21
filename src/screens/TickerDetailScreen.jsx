@@ -30,6 +30,12 @@ export default function TickerDetailScreen({route}) {
   const [market, setMarket] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
 
+  var today = new Date();
+  var y = today.getFullYear();
+  var m = ("00" + (today.getMonth()+1)).slice(-2);
+  var d = ("00" + today.getDate()).slice(-2)-1;
+  var result = y + "-" + m + "-" + d;
+
   useEffect(() => {
     fetch(
       `https://api.polygon.io/v3/reference/tickers/${ticker.ticker}?apiKey=${prygonApikey}`
@@ -48,11 +54,13 @@ export default function TickerDetailScreen({route}) {
 
   useEffect(() => {
     fetch(
-      `https://api.polygon.io/v2/aggs/ticker/${ticker.ticker}/range/1/day/2021-07-22/2021-07-22?adjusted=true&sort=asc&limit=120&apiKey=${prygonApikey}`
+      `https://api.polygon.io/v2/aggs/ticker/${ticker.ticker}/range/1/day/${result}/${result}?adjusted=true&sort=asc&limit=120&apiKey=${prygonApikey}`
     )
       .then((res) => res.json())
       .then((json) => setMarket(json));
   }, []);
+
+  // console.log(market);
 
   if (data == null || news == null) {
     return <Loading />;
@@ -67,6 +75,9 @@ export default function TickerDetailScreen({route}) {
           market_cap={comma(data.results.market_cap)}
           name={data.results.name}
           ticker={data.results.ticker}
+          c={market.results.c}
+          h={market.results.h}
+          vw={market.results.vw}
         />
         {news == null
           ? null

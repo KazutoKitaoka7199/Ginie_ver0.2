@@ -5,7 +5,9 @@ import {
   StyleSheet,
   Dimensions,
   Pressable,
-  Alert
+  Alert,
+  LogBox,
+  ScrollView
 } from "react-native";
 import Appbar from "../components/AppBar";
 import {
@@ -19,30 +21,45 @@ import {
 } from "firebase/firestore";
 import {db, auth} from "../components/Firebase";
 import { PieChart } from "react-native-chart-kit";
+import { Ionicons, Feather } from '@expo/vector-icons';
+
+LogBox.ignoreLogs(['AsyncStorage']);
+LogBox.ignoreLogs(['Settting a timer']);
 
 const INNER_CIRCLE_SIZE = 150;
-const COLORS = ["red", "green", "white", "pink", "yellow", "blue"];
+const COLORS = ["#07124F","#0066FF", "#86A4F3", "#8AD67D", "#B4EFE8", "blue"];
 
 export default function AllocationChartScreen() {
   const [chartData, setChartData] = useState([]);
 
-  function Payment() {
+  const converJpyToUsd = (jpy) => {
+    // TODO: USDは動的にAPI経由で取得できるようになるのが理想。
+    return jpy / USD;
+  };
+
+  const pay = async (jpy) => {
     const userid = auth.currentUser.uid;
-    
-      // ドル換算する処理
-      // stockShareを計算する処理
-      // Firestoreに書き込む処理 
-  
+
+    // 予算的な意味が伝わる変数がいいかも。
+    const usd = converJpyToUsd(jpy);
+
     if (userid) {
-      const docRef = setDoc(doc(db,"portfolio"));
-      updateDoc(docRef, {
-        price: 200,
-        ratio: 30,
-        stockShare: 0.3,
-        ticker: "TESL",
-      });
+      for (const data of chartData) {
+        // 各株式の price, ratio を取得
+        const {price, ratio} = data;
+
+        // この株式を購入するのにつかったドルの金額
+        const allocatableUsd = usd * ratio;
+
+        // 最終的な stockshare の計算
+        const stockShare = 0; // TODO: usd と price と usd を使って計算式を書く！
+
+        // ポートフォリオを更新
+        const docRef = doc(db, "user", userid, "portfolio", data.id);
+        await updateDoc(docRef, {stockShare: stockShare});
+      }
     }
-  }
+  };
 
   useEffect(() => {
     if (!auth.currentUser) return;
@@ -89,7 +106,7 @@ export default function AllocationChartScreen() {
         <View>
           <Appbar title="資産運用" />
         </View>
-        <Text>配分調整</Text>
+        <Text style={{position: "absolute", left: "40%", top: 80, fontSize: 16, fontWeight: "bold"}}>配分調整</Text>
         <View style={{ratio: "relative"}}>
           <PieChart
             data={chartData}
@@ -112,7 +129,7 @@ export default function AllocationChartScreen() {
             </Text>
           </View>
         </View>
-        <View>
+        <ScrollView style={styles.myport}>
           {chartData.map((data, index) => (
             <View
               style={{
@@ -128,18 +145,18 @@ export default function AllocationChartScreen() {
               <Text>{data.ratio}%</Text>
 
               <Pressable onPress={() => addPopulation(data)}>
-                <Text>+</Text>
+                <Ionicons name="add-circle-outline" size={24} color="black"/>
               </Pressable>
 
               <Pressable onPress={() => minusPopulation(data)}>
-                <Text>-</Text>
+                <Feather name="minus-circle" size={24} color="black" />
               </Pressable>
             </View>
           ))}
-        </View>
-        <Pressable onPress={()=> Alert.alert("入金！")}>
-          <Text>入金</Text>
-        </Pressable>
+          <Pressable onPress={pay}>
+            <Text style={styles.button}>配分決定</Text>
+          </Pressable>
+        </ScrollView>
       </View>
     </View>
   );
@@ -148,6 +165,7 @@ export default function AllocationChartScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: '#ffffff',
   },
   chartInnerCircle: {
     position: "absolute",
@@ -161,4 +179,16 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
   },
+  myport: {
+    marginBottom: 100,
+  },
+  button: {
+    backgroundColor: '#0066FF',
+    borderRadius: 10,
+    textAlign: 'center',
+    width: 170,
+    color: '#ffffff',
+    paddingVertical: 5,
+    left: 110,
+  }
 });

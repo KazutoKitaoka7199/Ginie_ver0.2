@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text } from 'react-native';
+import { LogBox } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
@@ -12,6 +12,9 @@ import BorrowScreen from './bottombar/BorrowScreen';
 import TickerDetailScreen from '../src/screens/TickerDetailScreen';
 import ArticleScreen from '../src/screens/ArticleScreen';
 import AllocationChartScreen from '../src/screens/AllocationChartScreen';
+
+LogBox.ignoreLogs(['AsyncStorage']);
+LogBox.ignoreLogs(['Settting a timer']);
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();

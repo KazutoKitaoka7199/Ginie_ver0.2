@@ -7,7 +7,10 @@ export default function TickerDetail({
   description,
   market_cap,
   name,
-  ticker
+  ticker,
+  c,
+  h,
+  vw
 }) {
   return (
     <View syle={styles.container}>
@@ -16,7 +19,7 @@ export default function TickerDetail({
           {!!branding
             && (
             <Image
-              style={{ width: 60, height: 60 }}
+              style={{ width: 50, height: 50 }}
               source={{ uri: branding }}
             />
             )}
@@ -28,36 +31,15 @@ export default function TickerDetail({
       </View>
       <Text style={styles.marketCap}>${market_cap}</Text>
       <View style={styles.info}>
-        <Text style={styles.title}>主要な指標</Text>
+        <Text style={styles.title}>主要な要素</Text>
         <View style={styles.detail}>
-          <View style={styles.index}>
-            <Text style={styles.indexItems}>現在の株価</Text>
-            <Text>{ }</Text>
-          </View>
-          <View style={styles.index}>
-            <Text style={styles.indexItems}>株式時価総額</Text>
-            <Text>{ }</Text>
-          </View>
-          <View style={styles.index}>
-            <Text style={styles.indexItems}>株価収益率</Text>
-            <Text>{ }</Text>
-          </View>
-          <View style={styles.index}>
-            <Text style={styles.indexItems}>1株当たり純利益</Text>
-            <Text>{ }</Text>
-          </View>
-        </View>
-      </View>
-      <View style={styles.info}>
-        <Text style={styles.title}></Text>
-        <View style={styles.detail}>
-          <View style={styles.index}>
-            <Text style={styles.indexItems}>前日終値</Text>
-            <Text>{ }</Text>
-          </View>
           <View style={styles.index}>
             <Text style={styles.indexItems}>本日終値</Text>
-            <Text>{ }</Text>
+            <Text style={{position: "absolute", right: 150, fontWeight: "bold", paddingTop: 10}}>${c}</Text>
+          </View>
+          <View style={styles.index}>
+            <Text style={styles.indexItems}>本日高値</Text>
+            <Text style={{position: "absolute", right: 150, fontWeight: "bold", paddingTop: 10}}>${h}</Text>
           </View>
         </View>
       </View>
@@ -69,13 +51,6 @@ export default function TickerDetail({
       </View>
       <View style={styles.info}>
         <Text style={styles.title}>ニュース</Text>
-        <View style={styles.detail}>
-          <View>
-            <Text>{ }</Text>
-            <Text>{ }</Text>
-          </View>
-          <Image />
-        </View>
       </View>
     </View>
   );
@@ -95,6 +70,7 @@ const styles = StyleSheet.create({
   marketCap: {
     fontWeight: 'bold',
     fontSize: 20,
+    top: 5,
     bottom: 10,
     left: 10,
   },
