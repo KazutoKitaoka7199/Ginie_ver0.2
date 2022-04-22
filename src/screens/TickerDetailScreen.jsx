@@ -16,6 +16,7 @@ import TickerDetail from "../components/TickerDetail";
 import {prygonApikey} from "../../env";
 import ListItem from "../components/ListItem";
 import { useNavigation } from "@react-navigation/native";
+import { element } from "prop-types";
 
 // 3桁カンマ区切りとする.
 function comma(num) {
@@ -30,11 +31,11 @@ export default function TickerDetailScreen({route}) {
   const [market, setMarket] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
 
-  var today = new Date();
-  var y = today.getFullYear();
-  var m = ("00" + (today.getMonth()+1)).slice(-2);
-  var d = ("00" + today.getDate()).slice(-2)-1;
-  var result = y + "-" + m + "-" + d;
+  // const today = new Date();
+  // const y = today.getFullYear();
+  // const m = ("00" + (today.getMonth()+1)).slice(-2);
+  // const d = ("00" + today.getDate()).slice(-2)-1;
+  // const result = y + "-" + m + "-" + d;
 
   useEffect(() => {
     fetch(
@@ -53,16 +54,21 @@ export default function TickerDetailScreen({route}) {
   }, []);
 
   useEffect(() => {
-    fetch(
-      `https://api.polygon.io/v2/aggs/ticker/${ticker.ticker}/range/1/day/${result}/${result}?adjusted=true&sort=asc&limit=120&apiKey=${prygonApikey}`
-    )
-      .then((res) => res.json())
-      .then((json) => setMarket(json));
+    setMarket(StockData.find(element => element.ticker == ticker.ticker));
   }, []);
+
+  console.log(market);
+  // useEffect(() => {
+  //   fetch(
+  //     `https://api.polygon.io/v2/aggs/ticker/${ticker.ticker}/range/1/day/${result}/${result}?adjusted=true&sort=asc&limit=120&apiKey=${prygonApikey}`
+  //   )
+  //     .then((res) => res.json())
+  //     .then((json) => setMarket(json));
+  // }, []);
 
   // console.log(market);
 
-  if (data == null || news == null) {
+  if (data == null || news == null || market == null) {
     return <Loading />;
   }
   return (
@@ -75,9 +81,9 @@ export default function TickerDetailScreen({route}) {
           market_cap={comma(data.results.market_cap)}
           name={data.results.name}
           ticker={data.results.ticker}
-          c={market.results.c}
-          h={market.results.h}
-          vw={market.results.vw}
+          c={market.c}
+          h={market.h}
+          vw={market.vw}
         />
         {news == null
           ? null

@@ -30,7 +30,7 @@ LogBox.ignoreLogs(['Settting a timer']);
 const INNER_CIRCLE_SIZE = 150;
 const COLORS = ["#07124F","#0066FF", "#86A4F3", "#8AD67D", "#B4EFE8", "blue"];
 
-export default function AllocationChartScreen() {
+export default function InvestentStatusResultScreen() {
   const navigation = useNavigation();
   const [chartData, setChartData] = useState([]);
 
@@ -57,21 +57,6 @@ export default function AllocationChartScreen() {
       return unsubscribe();
     };
   }, []);
-  const addPopulation = useCallback(
-    (item) => {
-      if (!auth.currentUser) return;
-      const userId = auth.currentUser.uid;
-      const documentRef = doc(db, "user", userId, "portfolio", item.id);
-      updateDoc(documentRef, { ratio: item.ratio + 1 });
-    }, [setChartData]);
-  
-  const minusPopulation = useCallback(
-    (item) => {
-      if (!auth.currentUser) return;
-      const userId = auth.currentUser.uid;
-      const documentRef = doc(db, "user", userId, "portfolio", item.id);
-      updateDoc(documentRef, { ratio: item.ratio - 1 });
-    }, [setChartData]);
 
   return (
     <View style={styles.container}>
@@ -98,7 +83,7 @@ export default function AllocationChartScreen() {
           />
           <View style={styles.chartInnerCircle}>
             <Text style={{textAlign: "center"}}>
-              <Text>{`マイポートフォリオ\n(日本円預金除く)`}</Text>
+              <Text>総資産：{`マイポートフォリオ\n(日本円預金除く)`}</Text>
             </Text>
           </View>
         </View>
@@ -107,23 +92,17 @@ export default function AllocationChartScreen() {
             <View
               style={{
                 flexDirection: "row",
-                justifyContent: "space-between",
-                paddingHorizontal: 24,
+                justifyContent: "space-around",
+                paddingHorizontal: 30,
                 marginBottom: 16,
+                borderBottomWidth: 1,
+                borderBottomColor: '#000000',
+                paddingBottom: 16
               }}
               key={data.id}
             >
               <Text>{data.ticker}</Text>
-
               <Text>{data.ratio}%</Text>
-
-              <Pressable onPress={() => addPopulation(data)}>
-                <Ionicons name="add-circle-outline" size={24} color="black"/>
-              </Pressable>
-
-              <Pressable onPress={() => minusPopulation(data)}>
-                <Feather name="minus-circle" size={24} color="black" />
-              </Pressable>
             </View>
           ))}
           <Pressable>

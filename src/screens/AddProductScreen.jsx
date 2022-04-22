@@ -16,7 +16,6 @@ import { Ionicons } from '@expo/vector-icons';
 import { collection, addDoc } from 'firebase/firestore';
 import { db, auth } from '../components/Firebase';
 import { useNavigation } from '@react-navigation/native';
-import Button from '../components/Button';
 
 export default function AddProductScreen() {
   const navigation = useNavigation();
@@ -24,8 +23,8 @@ export default function AddProductScreen() {
   const handlePress = async (ticker) => {
     try {
       const userid = auth.currentUser.uid;
-      const data =  await addDoc(collection(db, `user/${userid}/portfolio`), {
-        price: 100,
+      const data = await addDoc(collection(db, `user/${userid}/portfolio`), {
+        price: 100, //todo株価の取得
         ratio: 0,
         stockShare: 0.2,
         ticker: ticker,
@@ -99,7 +98,7 @@ export default function AddProductScreen() {
             keyExtractor={(item) => item.key}
         />
           <View styl={{padding: 16}}>
-            <Pressable onPress={() => navigation.navigate("allocationChart")}>
+            <Pressable onPress={() => navigation.navigate("allocationChart", {ticker: ticker})}>
               <Text style={styles.button}>配分調整</Text>
             </Pressable>
           </View>

@@ -12,6 +12,8 @@ import BorrowScreen from './bottombar/BorrowScreen';
 import TickerDetailScreen from '../src/screens/TickerDetailScreen';
 import ArticleScreen from '../src/screens/ArticleScreen';
 import AllocationChartScreen from '../src/screens/AllocationChartScreen';
+import InvestmentStatusScren from '../src/screens/InvestentStatusScreen';
+import InvestStatusResultScreen from '../src/screens/InvestmentStatusResultScreen';
 
 LogBox.ignoreLogs(['AsyncStorage']);
 LogBox.ignoreLogs(['Settting a timer']);
@@ -33,6 +35,8 @@ function InvestPage() {
         <Stack.Screen name="tickerDetail" component={TickerDetailScreen} />
         <Stack.Screen name="Article" component={ArticleScreen} />
         <Stack.Screen name="allocationChart" component={AllocationChartScreen} />
+        <Stack.Screen name="InvestmentStatus" component={InvestmentStatusScren} />
+        <Stack.Screen name="InvestmentStatusResult" component={InvestStatusResultScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );
