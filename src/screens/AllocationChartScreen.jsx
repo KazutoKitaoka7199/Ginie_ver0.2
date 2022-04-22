@@ -23,12 +23,13 @@ import {db, auth} from "../components/Firebase";
 import { PieChart } from "react-native-chart-kit";
 import { Ionicons, Feather } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
+import StockData from '../src/StockData';
 
 LogBox.ignoreLogs(['AsyncStorage']);
 LogBox.ignoreLogs(['Settting a timer']);
 
 const INNER_CIRCLE_SIZE = 150;
-const COLORS = ["#07124F","#0066FF", "#86A4F3", "#8AD67D", "#B4EFE8", "blue"];
+const COLORS = ["#07124F", "#0066FF", "#86A4F3", "#8AD67D", "#B4EFE8", "blue"];
 
 export default function AllocationChartScreen() {
   const navigation = useNavigation();
@@ -107,14 +108,17 @@ export default function AllocationChartScreen() {
             <View
               style={{
                 flexDirection: "row",
-                justifyContent: "space-between",
-                paddingHorizontal: 24,
+                justifyContent: "space-around",
+                paddingHorizontal: 30,
                 marginBottom: 16,
+                borderBottomWidth: 1,
+                borderBottomColor: '#000000',
+                paddingBottom: 16
               }}
               key={data.id}
             >
               <Text>{data.ticker}</Text>
-
+              <Text>{StockData.find(element => element.ticker == data.ticker).name}</Text>
               <Text>{data.ratio}%</Text>
 
               <Pressable onPress={() => addPopulation(data)}>

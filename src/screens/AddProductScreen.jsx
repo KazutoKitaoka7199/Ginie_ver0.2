@@ -98,7 +98,7 @@ export default function AddProductScreen() {
             keyExtractor={(item) => item.key}
         />
           <View styl={{padding: 16}}>
-            <Pressable onPress={() => navigation.navigate("allocationChart", {ticker: ticker})}>
+            <Pressable onPress={() => navigation.navigate("allocationChart")}>
               <Text style={styles.button}>配分調整</Text>
             </Pressable>
           </View>
