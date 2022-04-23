@@ -26,3 +26,4 @@ export function translateErrors(code) {
   }
   return error;
 }
+

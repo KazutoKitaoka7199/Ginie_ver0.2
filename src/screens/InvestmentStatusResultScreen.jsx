@@ -7,7 +7,8 @@ import {
   Pressable,
   Alert,
   LogBox,
-  ScrollView
+  ScrollView,
+  Image
 } from "react-native";
 import Appbar from "../components/AppBar";
 import {
@@ -23,6 +24,7 @@ import {db, auth} from "../components/Firebase";
 import { PieChart } from "react-native-chart-kit";
 import { Ionicons, Feather } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
+import StockData from '../src/StockData';
 
 LogBox.ignoreLogs(['AsyncStorage']);
 LogBox.ignoreLogs(['Settting a timer']);
@@ -30,7 +32,8 @@ LogBox.ignoreLogs(['Settting a timer']);
 const INNER_CIRCLE_SIZE = 150;
 const COLORS = ["#07124F","#0066FF", "#86A4F3", "#8AD67D", "#B4EFE8", "blue"];
 
-export default function InvestentStatusResultScreen() {
+export default function InvestentStatusResultScreen({ route }) {
+  const { jpy, USD } = route.params;
   const navigation = useNavigation();
   const [chartData, setChartData] = useState([]);
 
@@ -50,7 +53,7 @@ export default function InvestentStatusResultScreen() {
         const blankRatio = 100 - res.reduce((prev, current) => current.ratio + prev, 0);
         setChartData([
           ...res,
-          { id: null, ticker: "未配分", ratio: blankRatio, color: "gray" },
+          { id: null, ticker: "未配分", ratio: blankRatio, name: "日本円預金", color: "gray" },
         ]);
       });
     return () => {
@@ -83,7 +86,7 @@ export default function InvestentStatusResultScreen() {
           />
           <View style={styles.chartInnerCircle}>
             <Text style={{textAlign: "center"}}>
-              <Text>総資産：{`マイポートフォリオ\n(日本円預金除く)`}</Text>
+              <Text>{`総資産：${jpy}円\n($${jpy/USD})`}</Text>
             </Text>
           </View>
         </View>
@@ -92,8 +95,7 @@ export default function InvestentStatusResultScreen() {
             <View
               style={{
                 flexDirection: "row",
-                justifyContent: "space-around",
-                paddingHorizontal: 30,
+                paddingHorizontal: 15,
                 marginBottom: 16,
                 borderBottomWidth: 1,
                 borderBottomColor: '#000000',
@@ -101,13 +103,23 @@ export default function InvestentStatusResultScreen() {
               }}
               key={data.id}
             >
-              <Text>{data.ticker}</Text>
-              <Text>{data.ratio}%</Text>
+              <Image
+                source={StockData.find((x) => x.ticker == data.ticker)?.imageUrl || null}
+                style={{ width: 50, height: 50, marginRight: 10}}>
+              </Image>
+              <View>
+                <Text style={{marginBottom: 10}}>{data.ticker}</Text>
+                <View style={{borderBottomWidth: 1, borderBottomColor: 'gray', width: 50, alignItems: 'center'}}>
+                  <Text>{data.ratio}%</Text>
+                </View>
+              </View>
+              <Text style={{fontWeight: 'bold', fontSize: 18, left: 20, top: 20}}>{StockData.find(element => element.ticker == data.ticker)?.name}</Text>
+              <View>
+                <Text style={{ position: 'absolute', left: 90, fontSize: 12 }}>{jpy * data.ratio * 0.01}円</Text>
+                <Text style={{left: 90, top: 25, fontSize: 16}}>${(jpy/USD)*data.ratio*0.01}</Text>
+              </View>
             </View>
           ))}
-          <Pressable>
-            <Text style={styles.button} onPress={() => navigation.navigate('InvestmentStatus', { chartData: chartData})}>配分決定</Text>
-          </Pressable>
         </ScrollView>
       </View>
     </View>

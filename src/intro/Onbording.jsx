@@ -5,7 +5,6 @@ import { Ionicons } from '@expo/vector-icons';
 import OnbordingItem from './OnbordingItem';
 import Slides from './Slides';
 import Pagenator from './Pagenator';
-import BackButton from './BackButton';
 
 export default function Onbording() {
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -21,13 +20,12 @@ export default function Onbording() {
   return (
     <View style={styles.container}>
       <View style={{ flex: 3 }}>
-        <Ionicons
+        {/* <Ionicons
           name="chevron-back-circle"
           size={60}
           color="gray"
           style={{position: 'absolute', top: 30, left: 20}}
-        />
-        {/* <BackButton /> */}
+        /> */}
         <FlatList
           data={Slides}
           renderItem={({ item }) => <OnbordingItem item={item} />}

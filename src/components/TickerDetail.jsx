@@ -19,7 +19,7 @@ export default function TickerDetail({
           {!!branding
             && (
             <Image
-              style={{ width: 50, height: 50 }}
+              style={{ width: 50, height: 50, marginRight: 5 }}
               source={{ uri: branding }}
             />
             )}
@@ -62,6 +62,7 @@ const styles = StyleSheet.create({
   },
   item: {
     flexDirection: 'row',
+    marginLeft: 15
   },
   name: {
     top: 15,

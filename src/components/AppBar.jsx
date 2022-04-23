@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
-import { FontAwesome5 } from '@expo/vector-icons';
+import { FontAwesome5,Ionicons } from '@expo/vector-icons';
 import LogOutButton from './LogOutButton';
 
 export default function Appbar(props) {
@@ -8,12 +8,12 @@ export default function Appbar(props) {
   return (
     <View style={styles.appbar}>
       <View style={styles.appInner}>
-        <FontAwesome5
-          name="filter"
-          size={20}
-          color="black"
+        {/* <Ionicons
+          name="chevron-back-circle"
+          size={40}
+          color="gray"
           style={styles.appbarLeft}
-        />
+        /> */}
         <Text style={styles.appbarItem}>{title}</Text>
         <View style={styles.appbarRight}>
           <FontAwesome5

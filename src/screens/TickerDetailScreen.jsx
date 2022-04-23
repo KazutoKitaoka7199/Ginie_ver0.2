@@ -11,12 +11,11 @@ import React, {useEffect, useState} from "react";
 
 import StockData from "../src/StockData";
 import Loading from "../components/Loading";
-import Appbar from "../components/AppBar";
 import TickerDetail from "../components/TickerDetail";
 import {prygonApikey} from "../../env";
 import ListItem from "../components/ListItem";
 import { useNavigation } from "@react-navigation/native";
-import { element } from "prop-types";
+import LogOutButton from "../components/LogOutButton";
 
 // 3桁カンマ区切りとする.
 function comma(num) {
@@ -30,6 +29,11 @@ export default function TickerDetailScreen({route}) {
   const [news, setNews] = useState(null);
   const [market, setMarket] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
+  useEffect(() => {
+    navigation.setOptions({
+      headerRight: () => <LogOutButton />,
+    });
+  }, []);
 
   // const today = new Date();
   // const y = today.getFullYear();
@@ -57,7 +61,6 @@ export default function TickerDetailScreen({route}) {
     setMarket(StockData.find(element => element.ticker == ticker.ticker));
   }, []);
 
-  console.log(market);
   // useEffect(() => {
   //   fetch(
   //     `https://api.polygon.io/v2/aggs/ticker/${ticker.ticker}/range/1/day/${result}/${result}?adjusted=true&sort=asc&limit=120&apiKey=${prygonApikey}`
@@ -66,14 +69,11 @@ export default function TickerDetailScreen({route}) {
   //     .then((json) => setMarket(json));
   // }, []);
 
-  // console.log(market);
-
   if (data == null || news == null || market == null) {
     return <Loading />;
   }
   return (
     <SafeAreaView style={styles.container}>
-      <Appbar />
       <ScrollView>
         <TickerDetail
           branding={`${data.results.branding.icon_url}?apiKey=${prygonApikey}`}

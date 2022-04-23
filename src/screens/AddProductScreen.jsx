@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {
   View,
   Text,
@@ -16,15 +16,21 @@ import { Ionicons } from '@expo/vector-icons';
 import { collection, addDoc } from 'firebase/firestore';
 import { db, auth } from '../components/Firebase';
 import { useNavigation } from '@react-navigation/native';
+import LogOutButton from '../components/LogOutButton';
 
 export default function AddProductScreen() {
   const navigation = useNavigation();
+  useEffect(() => {
+    navigation.setOptions({
+      headerRight: () => <LogOutButton />,
+    });
+  }, []);
 
   const handlePress = async (ticker) => {
     try {
       const userid = auth.currentUser.uid;
       const data = await addDoc(collection(db, `user/${userid}/portfolio`), {
-        price: 100, //todo株価の取得
+        price: StockData.find(element => element.ticker == ticker)?.vw,
         ratio: 0,
         stockShare: 0.2,
         ticker: ticker,
@@ -63,10 +69,6 @@ export default function AddProductScreen() {
 
   return (
     <SafeAreaView style={styles.container}>
-      <View>
-        <View>
-          <Appbar title="資産運用" />
-        </View>
         <View style={styles.search}>
           <View style={styles.portChoices}>
             <Text>個別株式</Text>
@@ -102,7 +104,6 @@ export default function AddProductScreen() {
               <Text style={styles.button}>配分調整</Text>
             </Pressable>
           </View>
-        </View>
     </SafeAreaView>
   );
 }

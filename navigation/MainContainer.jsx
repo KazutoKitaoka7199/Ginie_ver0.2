@@ -31,12 +31,12 @@ function InvestPage() {
           tabBarActiveTintColor: '#0066FF',
         }}
       >
-        <Stack.Screen name="invest" component={InvestScreen} />
-        <Stack.Screen name="tickerDetail" component={TickerDetailScreen} />
+        <Stack.Screen name="invest" component={InvestScreen} options={{ headerTitle: "資産運用" }}/>
+        <Stack.Screen name="tickerDetail" component={TickerDetailScreen} options={{ headerTitle: "資産運用" }}/>
         <Stack.Screen name="Article" component={ArticleScreen} />
-        <Stack.Screen name="allocationChart" component={AllocationChartScreen} />
-        <Stack.Screen name="InvestmentStatus" component={InvestmentStatusScren} />
-        <Stack.Screen name="InvestmentStatusResult" component={InvestStatusResultScreen} />
+        <Stack.Screen name="allocationChart" component={AllocationChartScreen} options={{ headerTitle: "資産運用" }}/>
+        <Stack.Screen name="InvestmentStatus" component={InvestmentStatusScren} options={{ headerTitle: "初回入金" }}/>
+        <Stack.Screen name="InvestmentStatusResult" component={InvestStatusResultScreen} options={{ headerTitle: "資産運用" }}/>
       </Stack.Navigator>
     </NavigationContainer>
   );

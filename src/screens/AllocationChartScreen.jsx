@@ -7,9 +7,9 @@ import {
   Pressable,
   Alert,
   LogBox,
-  ScrollView
+  ScrollView,
+  Image
 } from "react-native";
-import Appbar from "../components/AppBar";
 import {
   getDocs,
   collection,
@@ -24,6 +24,7 @@ import { PieChart } from "react-native-chart-kit";
 import { Ionicons, Feather } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 import StockData from '../src/StockData';
+import LogOutButton from '../components/LogOutButton';
 
 LogBox.ignoreLogs(['AsyncStorage']);
 LogBox.ignoreLogs(['Settting a timer']);
@@ -34,6 +35,11 @@ const COLORS = ["#07124F", "#0066FF", "#86A4F3", "#8AD67D", "#B4EFE8", "blue"];
 export default function AllocationChartScreen() {
   const navigation = useNavigation();
   const [chartData, setChartData] = useState([]);
+  useEffect(() => {
+    navigation.setOptions({
+      headerRight: () => <LogOutButton />,
+    });
+  }, []);
 
   useEffect(() => {
     if (!auth.currentUser) return;
@@ -78,7 +84,6 @@ export default function AllocationChartScreen() {
     <View style={styles.container}>
       <View style={{flex: 1}}>
         <View>
-          <Appbar title="資産運用" />
         </View>
         <Text style={{position: "absolute", left: "40%", top: 80, fontSize: 16, fontWeight: "bold"}}>配分調整</Text>
         <View style={{ratio: "relative"}}>
@@ -117,17 +122,23 @@ export default function AllocationChartScreen() {
               }}
               key={data.id}
             >
-              <Text>{data.ticker}</Text>
-              <Text>{StockData.find(element => element.ticker == data.ticker).name}</Text>
-              <Text>{data.ratio}%</Text>
+              <Image source={StockData.find((x) => x.ticker == data.ticker)?.imageUrl || null} style={{width: 50, height: 50}}></Image>
+              <View>
+                <Text>{data.ticker}</Text>
+                <Text>{StockData.find(element => element.ticker == data.ticker)?.name}</Text>
+              </View>
+                <View style={{borderBottomWidth: 1, borderBottomColor: 'gray', width: 50, alignItems: 'center'}}>
+                  <Text style={{top: 20}}>{data.ratio}%</Text>
+                </View>
+              <View>
+                <Pressable onPress={() => addPopulation(data)}>
+                  <Ionicons name="add-circle-outline" size={24} color="gray"/>
+                </Pressable>
 
-              <Pressable onPress={() => addPopulation(data)}>
-                <Ionicons name="add-circle-outline" size={24} color="black"/>
-              </Pressable>
-
-              <Pressable onPress={() => minusPopulation(data)}>
-                <Feather name="minus-circle" size={24} color="black" />
-              </Pressable>
+                <Pressable onPress={() => minusPopulation(data)}>
+                  <Feather name="minus-circle" size={22} color="gray" />
+                </Pressable>
+              </View>
             </View>
           ))}
           <Pressable>
