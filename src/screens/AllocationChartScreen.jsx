@@ -174,6 +174,7 @@ const styles = StyleSheet.create({
     width: 170,
     color: '#ffffff',
     paddingVertical: 5,
+    marginBottom: 20,
     left: 110,
   }
 });

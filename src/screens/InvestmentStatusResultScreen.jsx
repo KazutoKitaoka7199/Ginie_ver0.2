@@ -25,6 +25,7 @@ import { PieChart } from "react-native-chart-kit";
 import { Ionicons, Feather } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 import StockData from '../src/StockData';
+import LogOutButton from '../components/LogOutButton';
 
 LogBox.ignoreLogs(['AsyncStorage']);
 LogBox.ignoreLogs(['Settting a timer']);
@@ -36,6 +37,12 @@ export default function InvestentStatusResultScreen({ route }) {
   const { jpy, USD } = route.params;
   const navigation = useNavigation();
   const [chartData, setChartData] = useState([]);
+
+  useEffect(() => {
+    navigation.setOptions({
+      headerRight: () => <LogOutButton />,
+    });
+  }, []);
 
   useEffect(() => {
     if (!auth.currentUser) return;
@@ -64,9 +71,6 @@ export default function InvestentStatusResultScreen({ route }) {
   return (
     <View style={styles.container}>
       <View style={{flex: 1}}>
-        <View>
-          <Appbar title="資産運用" />
-        </View>
         <Text style={{position: "absolute", left: "40%", top: 80, fontSize: 16, fontWeight: "bold"}}>配分調整</Text>
         <View style={{ratio: "relative"}}>
           <PieChart
@@ -115,8 +119,8 @@ export default function InvestentStatusResultScreen({ route }) {
               </View>
               <Text style={{fontWeight: 'bold', fontSize: 18, left: 20, top: 20}}>{StockData.find(element => element.ticker == data.ticker)?.name}</Text>
               <View>
-                <Text style={{ position: 'absolute', left: 90, fontSize: 12 }}>{jpy * data.ratio * 0.01}円</Text>
-                <Text style={{left: 90, top: 25, fontSize: 16}}>${(jpy/USD)*data.ratio*0.01}</Text>
+                <Text style={{ position: 'absolute', left: 50, fontSize: 12 }}>{jpy * data.ratio * 0.01}円</Text>
+                <Text style={{left: 50, top: 25, fontSize: 16}}>${(jpy/USD)*data.ratio*0.01}</Text>
               </View>
             </View>
           ))}

@@ -130,7 +130,7 @@ const styles = StyleSheet.create({
   claimInfoTitle: {
     marginHorizontal: 25,
     fontWeight: 'bold',
-    marginTop: 30,
+    marginTop: 15,
     color: 'gray',
     marginBottom: 15
   }

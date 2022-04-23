@@ -1,4 +1,4 @@
-import { View, Text, Alert, StyleSheet } from 'react-native';
+import { View, Text, Alert, StyleSheet, KeyboardAvoidingView } from 'react-native';
 import { TextInput } from 'react-native-paper';
 import React, { useState, useEffect } from 'react';
 import { FontAwesome5} from '@expo/vector-icons';
@@ -88,11 +88,14 @@ export default function InvestentStatusScreen({ route }) {
           style={styles.payment}
         />
       </View>
-      <Text style={styles.button} onPress={
+      <KeyboardAvoidingView>
+        <Text style={styles.button} onPress={
         () => {
           pay()
           navigation.navigate("InvestmentStatusResult", {jpy: jpy || "", USD: USD})
-        }}>入金する</Text>
+          }}>入金する
+        </Text>
+      </KeyboardAvoidingView>
     </View>
   )
 }
@@ -153,7 +156,7 @@ const styles = StyleSheet.create({
     marginHorizontal: 25,
     paddingHorizontal: 10,
     marginVertical: 10,
-    marginTop: 50,
+    marginTop: 30,
     flexDirection: 'row',
     shadowColor: 'black',
     shadowOffset: { width: 0, height: 8 },
@@ -168,7 +171,7 @@ const styles = StyleSheet.create({
     marginHorizontal: 25,
     paddingHorizontal: 10,
     marginVertical: 10,
-    marginTop: 50,
+    marginTop: 30,
     flexDirection: 'row',
     shadowColor: 'black',
     shadowOffset: { width: 0, height: 8 },
